@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel do Cassio — Configuração da Homenagem</title>
+    
+    <!-- Pré-carregamento de fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Folha de Estilos -->
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <!-- Canvas de Partículas para manter a atmosfera premium -->
+    <canvas id="bg-canvas"></canvas>
+    
+    <!-- 1. Painel de Visualização e Controle (Apenas Tela - Oculto na Impressão) -->
+    <div class="admin-container no-print">
+      <div class="admin-header">
+        <span class="crystal-heart">🛠️</span>
+        <h1>Painel do Cassio</h1>
+        <p class="subtitle">Personalize as mensagens e gere os cartões físicos</p>
+      </div>
+
+      <!-- Configurações Globais -->
+      <div class="admin-section">
+        <h3>🔗 Configuração de Produção</h3>
+        <div class="form-group">
+          <label for="base-url">URL Final do Site Publicado</label>
+          <input type="url" id="base-url" class="form-control" placeholder="https://seu-site-de-homenagem.vercel.app" value="https://amor-15-anos.vercel.app" required />
+          <p style="font-size: 0.8rem; color: var(--color-text-muted); margin-top: 5px;">
+            ⚠️ Os QR codes apontarão para esta URL. Altere para o link definitivo que você usar na Vercel/GitHub Pages antes de imprimir!
+          </p>
+        </div>
+      </div>
+
+      <!-- Capítulo I: História -->
+      <div class="admin-section">
+        <h3>💍 Capítulo I: A Nossa História</h3>
+        <div class="form-group">
+          <label for="historia-titulo">Título da Página</label>
+          <input type="text" id="historia-titulo" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="historia-subtitulo">Subtítulo</label>
+          <input type="text" id="historia-subtitulo" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="historia-conteudo">História de Amor (Suporta tags HTML como &lt;span class="highlight-rose"&gt;texto&lt;/span&gt;)</label>
+          <textarea id="historia-conteudo" class="form-control"></textarea>
+        </div>
+        
+        <div class="qr-preview-card">
+          <div class="qr-canvas-holder" id="qr-historia-preview"></div>
+          <div class="qr-info-text">
+            <h4>QR Code 1 — Nossa História</h4>
+            <p>Destino: <span id="dest-historia">...</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Capítulo II: Nossos Filhos -->
+      <div class="admin-section">
+        <h3>👨‍👩‍👧‍👦 Capítulo II: Os Nossos Frutos (Filhos)</h3>
+        <div class="form-group">
+          <label for="filhos-conteudo">Introdução sobre os Filhos</label>
+          <textarea id="filhos-conteudo" class="form-control"></textarea>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          <div>
+            <h4 style="color: var(--color-primary); font-family: var(--font-serif); margin-bottom: 10px;">Menino (15 Anos)</h4>
+            <div class="form-group">
+              <label for="filho-nome">Nome/Identificador</label>
+              <input type="text" id="filho-nome" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label for="filho-idade">Idade</label>
+              <input type="text" id="filho-idade" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label for="filho-texto">Mensagem dedicada</label>
+              <textarea id="filho-texto" class="form-control" style="min-height: 100px;"></textarea>
+            </div>
+          </div>
+          <div>
+            <h4 style="color: var(--color-primary); font-family: var(--font-serif); margin-bottom: 10px;">Menina (13 Anos)</h4>
+            <div class="form-group">
+              <label for="filha-nome">Nome/Identificador</label>
+              <input type="text" id="filha-nome" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label for="filha-idade">Idade</label>
+              <input type="text" id="filha-idade" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label for="filha-texto">Mensagem dedicada</label>
+              <textarea id="filha-texto" class="form-control" style="min-height: 100px;"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="qr-preview-card" style="margin-top: 25px;">
+          <div class="qr-canvas-holder" id="qr-filhos-preview"></div>
+          <div class="qr-info-text">
+            <h4>QR Code 2 — Nossos Filhos</h4>
+            <p>Destino: <span id="dest-filhos">...</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Capítulo III: 15 Motivos -->
+      <div class="admin-section">
+        <h3>✨ Capítulo III: 15 Motivos Para Te Amar</h3>
+        <div class="form-group">
+          <label for="motivos-conteudo">Introdução</label>
+          <textarea id="motivos-conteudo" class="form-control"></textarea>
+        </div>
+        
+        <h4 style="color: var(--color-primary); font-family: var(--font-serif); margin-bottom: 15px;">Os 15 Motivos Individuais</h4>
+        <div id="motivos-inputs-container" style="display: grid; grid-template-columns: 1fr; gap: 10px; max-height: 350px; overflow-y: auto; padding-right: 10px; border: 1px solid var(--glass-border); border-radius: 10px; padding: 15px; background: rgba(0,0,0,0.2);">
+          <!-- Será preenchido dinamicamente via JS -->
+        </div>
+
+        <div class="qr-preview-card" style="margin-top: 25px;">
+          <div class="qr-canvas-holder" id="qr-motivos-preview"></div>
+          <div class="qr-info-text">
+            <h4>QR Code 3 — 15 Motivos</h4>
+            <p>Destino: <span id="dest-motivos">...</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Capítulo IV: Carta -->
+      <div class="admin-section">
+        <h3>✉️ Capítulo IV: Uma Promessa para o Futuro</h3>
+        <div class="form-group">
+          <label for="carta-conteudo">Carta de Amor Completa</label>
+          <textarea id="carta-conteudo" class="form-control" style="min-height: 180px;"></textarea>
+        </div>
+
+        <div class="qr-preview-card">
+          <div class="qr-canvas-holder" id="qr-carta-preview"></div>
+          <div class="qr-info-text">
+            <h4>QR Code 4 — Carta de Amor</h4>
+            <p>Destino: <span id="dest-carta">...</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ações Administrativas -->
+      <div class="admin-actions">
+        <button class="btn-admin" id="btn-save-draft">💾 Salvar Rascunho (Preview)</button>
+        <button class="btn-admin-outline" id="btn-export-prod">📤 Exportar para Produção</button>
+        <button class="btn-admin" id="btn-print-tags" style="background: linear-gradient(135deg, #a8ffb2 0%, #17c938 100%); color: #000;">🖨️ Imprimir Cartões Físicos</button>
+      </div>
+
+      <!-- Caixa de Exportação JSON (Cópia para Produção) -->
+      <div class="admin-section export-box" id="export-box">
+        <h3 style="color: var(--color-accent);">📤 Exportação de Dados Pronta!</h3>
+        <p style="font-size: 0.9rem; color: var(--color-text-muted); margin-bottom: 15px;">
+          Copie todo o bloco de código abaixo e cole no arquivo <code style="color: var(--color-primary);">src/textData.js</code> do seu projeto para salvar em produção definitivamente!
+        </p>
+        <textarea id="export-code" class="form-control" style="min-height: 250px; font-family: monospace; font-size: 0.85rem;" readonly></textarea>
+        <button class="btn-romantic" id="btn-copy-code" style="margin-top: 15px;">Copiar Código 📋</button>
+      </div>
+    </div>
+
+    <!-- 2. Área de Impressão de Alta Fidelidade (Oculta na Tela - Apenas Impressora) -->
+    <div class="printable-tags-wrapper">
+      <div class="printable-header">
+        <h1>Nossas Bodas de Cristal — 15 Anos de Amor</h1>
+        <p>Folha de Recorte de Cartões de Presente (Recomendado Imprimir em Papel Opaline 180g ou 240g)</p>
+      </div>
+      
+      <div class="printable-grid" id="printable-tags-grid">
+        <!-- Gerado dinamicamente para ter os QR codes corretos -->
+      </div>
+    </div>
+
+    <!-- Script Admin -->
+    <script type="module" src="/src/admin.js"></script>
+  </body>
+</html>
