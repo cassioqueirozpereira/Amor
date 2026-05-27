@@ -192,40 +192,105 @@ h2 {
 }
 
 .crystal-item {
-  width: 50px;
-  height: 50px;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15) 0%, rgba(184, 164, 217, 0.1) 60%, rgba(184, 164, 217, 0.3) 100%);
-  border: 1px solid rgba(184, 164, 217, 0.25);
-  border-radius: 12px;
+  width: 52px;
+  height: 68px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-primary);
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   position: relative;
   transition: var(--transition-bounce);
   user-select: none;
   -webkit-user-select: none;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  
+  /* Forma Geométrica de Cristal Hexagonal Lapidado */
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  
+  /* Gradiente Cônico para Simular Facetas Convergentes 3D */
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    rgba(229, 192, 180, 0.3) 0deg 60deg,
+    rgba(184, 164, 217, 0.18) 60deg 120deg,
+    rgba(255, 123, 144, 0.35) 120deg 180deg,
+    rgba(184, 164, 217, 0.12) 180deg 240deg,
+    rgba(229, 192, 180, 0.35) 240deg 300deg,
+    rgba(255, 255, 255, 0.25) 300deg 360deg
+  );
+  
+  /* Brilho e Sombra suaves */
+  filter: drop-shadow(0 4px 10px rgba(184, 164, 217, 0.35));
 }
 
-/* Crystal shapes styling (diamond-like angle) */
+/* Faceta Principal Central (Mesa do Cristal) */
 .crystal-item::before {
   content: '';
   position: absolute;
-  inset: -1px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 60%);
+  top: 12%;
+  left: 12%;
+  right: 12%;
+  bottom: 12%;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.02) 80%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   pointer-events: none;
+  z-index: 1;
 }
 
+/* Linha de Brilho Reluzente Refratário (Glint/Glare) */
+.crystal-item::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 42%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 58%
+  );
+  transform: rotate(30deg) translate(-20%, -20%);
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Estilo do número */
+.crystal-item span {
+  position: relative;
+  z-index: 3;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+  font-family: var(--font-sans);
+}
+
+/* Efeito ao Passar o Mouse (Sweeping Glare) */
+.crystal-item:hover::after, .crystal-item.active::after {
+  transform: rotate(30deg) translate(25%, 25%);
+}
+
+.crystal-item:hover {
+  transform: translateY(-2px) scale(1.05);
+  filter: drop-shadow(0 6px 15px rgba(229, 192, 180, 0.5));
+}
+
+/* Efeito de Clique Juicy UI */
 .crystal-item:active, .crystal-item.active {
-  transform: scale(0.88) rotate(5deg);
-  border-color: var(--color-accent);
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.25) 0%, rgba(255, 123, 144, 0.15) 60%, rgba(255, 123, 144, 0.4) 100%);
-  box-shadow: 0 0 20px rgba(var(--color-accent-rgb), 0.4);
+  transform: scale(0.9) rotate(3deg);
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    rgba(255, 123, 144, 0.5) 0deg 60deg,
+    rgba(184, 164, 217, 0.3) 60deg 120deg,
+    rgba(255, 255, 255, 0.6) 120deg 180deg,
+    rgba(184, 164, 217, 0.2) 180deg 240deg,
+    rgba(255, 123, 144, 0.5) 240deg 300deg,
+    rgba(255, 255, 255, 0.5) 300deg 360deg
+  );
+  filter: drop-shadow(0 0 18px rgba(255, 123, 144, 0.75));
   color: var(--color-text);
 }
 

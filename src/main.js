@@ -378,7 +378,7 @@ function renderMotivos() {
       
       <div class="crystals-container no-print" id="crystals-block" style="display: none;">
         ${Array.from({ length: 15 }, (_, i) => `
-          <div class="crystal-item" data-index="${i}">${i + 1}</div>
+          <div class="crystal-item" data-index="${i}"><span>${i + 1}</span></div>
         `).join('')}
       </div>
       
