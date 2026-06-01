@@ -1,34 +1,32 @@
 // Banco de dados de textos da Homenagem (pode ser personalizado pelo painel admin)
 
 export const defaultTextData = {
+  musicUrl: "/musica.mp3",
   portal: {
     title: "15 Anos de Amor",
     subtitle: "Bodas de Cristal",
     intro: "Bem-vinda ao nosso portal secreto de memórias. Ao longo do dia de hoje, cada cartão físico que você encontrar revelará uma lembrança ou uma declaração escrita letra por letra, celebrando tudo o que construímos juntos nesses 15 anos. Obrigado por ser minha companheira de vida."
   },
   historia: {
-    title: "Capítulo I",
-    subtitle: "A Nossa História",
+    title: "A Nossa História",
     content: "<p>Há exatamente <span class=\"highlight-rose\">15 anos</span>, nos conhecemos, mal nós sabiamos que se tornaria a jornada mais fantástica e desafiadora das nossas vidas.</p><p>Quando olho para trás, percebo como o tempo voou. Passamos por tantas fases, mudamos de casa, adaptamos rotinas e amadurecemos.</p><p>O nosso amor não apenas resistiu ao tempo, ele se transformou em algo sólido, brilhante e infinitamente precioso como o <strong>cristal</strong>. Cada vitória dividida e cada obstáculo superado de mãos dadas nos trouxe até este marco inesquecível. Sou infinitamente grato por ter você como minha esposa.</p>"
   },
   filhos: {
-    title: "Capítulo II",
-    subtitle: "Os Nossos Frutos",
+    title: "Os Nossos Frutos",
     content: "<p>Dizem que o amor verdadeiro não se divide, ele se multiplica. No nosso caso, essa multiplicação tomou a forma mais linda possível nas vidas dos nossos dois filhos lindos. Eles são o nosso maior orgulho, o reflexo vivo da nossa união e da dedicação que sempre tivemos um pelo outro.</p>",
     boy: {
-      name: "Nosso Menino",
+      name: "Victor Eduardo de Almeida Pereira",
       age: "15 Anos",
       text: "Hoje, com 15 anos, ele está se tornando um rapaz incrível. Vejo nele a determinação e a força que sempre buscamos cultivar. É incrível ver como ele cresceu, mas guarda em si aquela pureza e alegria que sempre iluminaram nossa casa. Ele tem tanta sorte de ter você como mãe, seu porto seguro."
     },
     girl: {
-      name: "Nossa Menina",
+      name: "Lanna de Almeida Pereira",
       age: "13 Anos",
       text: "Com 13 anos, nossa menina está desabrochando para o mundo com uma sensibilidade, inteligência e doçura cativantes. Ao mesmo tempo que ela está quieta, já fica irritada, fala mais rápido que consegue pensar, quando não chora por nada. Ela tem uma ótima mãe"
     }
   },
   motivos: {
-    title: "Capítulo III",
-    subtitle: "15 Motivos Para Te Amar",
+    title: "15 Motivos Para Te Amar",
     content: "<p>Para celebrar esses 15 anos de casados, escolhi <span class=\"highlight-lavender\">15 pequenos grandes motivos</span> pelos quais meu coração bate mais forte por você. Toque em cada cristal brilhante abaixo para revelar cada um deles:</p>",
     reasons: [
       "Amo o seu jeito de rir das minhas piadas ruins, só para me ver feliz.",
@@ -49,8 +47,7 @@ export const defaultTextData = {
     ]
   },
   carta: {
-    title: "Capítulo IV",
-    subtitle: "Uma Carta Para o Futuro",
+    title: "Uma Carta Para o Futuro",
     content: "<p>Minha querida esposa,</p><p>Chegar aos <span class=\"highlight-rose\">15 anos de casados</span> é olhar para um castelo precioso que construímos tijolo por tijolo. Mas, mais do que celebrar o passado, hoje quero olhar para o nosso <strong>futuro</strong>.</p><p>Prometo continuar te escolhendo todos os dias, nos próximos 15, 30, 50 anos. Prometo ser seu apoio inabalável nas tempestades, seu parceiro de risadas nas bonanças e seu eterno admirador. Quero envelhecer ao seu lado, ver nossos filhos voarem alto e continuarmos sendo o porto seguro um do outro.</p><p>Você é o meu amor, a minha melhor amiga e a minha maior bênção. Feliz aniversário de casamento! Com todo o meu amor para sempre,</p><p class=\"text-right highlight-accent\">— Cassio</p>"
   },
   poema1: {
@@ -85,6 +82,67 @@ export const defaultTextData = {
   <p class="poetic-line">“Qual o sonho ou os sonhos que fará nós dois ser felizes ao realizá-lo? ...</p>
   <p class="poetic-line">E principalmente sermos felizes no processo?”</p>
 </blockquote>
+<p class="text-right highlight-accent">— Cassio</p>`
+  },
+  poema2: {
+    title: "Promessas",
+    content: `<p>Prometo lhe amar, te respeitar, te honrar por toda a minha vida.</p>
+<p>Lembro como se fosse hoje, quando você foi em meu caixa, peguei em sua mão e lhe pedi para ficar comigo.</p>
+<p>Lembro até hoje do nosso primeiro beijo, coração acelerado.</p>
+<p>O quanto tínhamos medo de começar uma nova relação e se machucar.</p>
+<p>Hoje, depois de <span class=\"highlight-rose\">15 anos</span>, te olho e vejo minha parceira, minha melhor amiga, meu alicerce, minha vida.</p>
+<p>Vivemos alegrias imensas, enfrentamos dificuldades, crescemos juntos. Você me tornou um homem melhor.</p>
+<p>Prometo continuar te escolhendo todos os dias, com amor, respeito, paciência e lealdade.</p>
+<p>Se eu pudesse voltar no tempo, escolheria você mil vezes. E se o futuro nos esperar por mais 50 anos, quero que cada um seja ao seu lado.</p>
+<p class="text-right highlight-accent">— Cassio</p>`
+  },
+  poema3: {
+    title: "Para meu amor ♡ ♡ ♡",
+    content: `<p>Lembro como se fosse hoje, o dia que você foi em meu caixa, peguei em sua mão, olhei em seus olhos (lindos e grandes) e lhe pedi para ficar comigo. Lembro até hoje do nosso primeiro beijo.</p>
+<p>Hoje, depois de <span class=\"highlight-rose\">15 anos</span>, te olho e vejo minha parceira, minha melhor amiga, meu alicerce, minha vida.</p>
+<p>Vivemos alegrias imensas, enfrentamos dificuldades, crescemos juntos. Você me tornou um homem melhor.</p>
+<p>Prometo continuar te amando e te escolhendo todos os dias, te tratar com amor, respeito, paciência e lealdade. Vamos seguir juntos com Deus.</p>
+<p>Se eu pudesse voltar no tempo, escolheria você mil vezes. E se o futuro com Deus nos permitir viver mais 90 anos, quero que cada ano seja ao seu lado.</p>
+<p class="text-right highlight-accent">— Cassio</p>`
+  },
+  poema4: {
+    title: "Mais um ano de vida!",
+    content: `<p>Hoje é um dia muito especial, minha linda completa <span class=\"highlight-rose\">30 anos de vida</span>. Mais da metade da sua vida você compartilhou ao meu lado.</p>
+<p>São <span class=\"highlight-lavender\">15 anos de história juntos</span>, de cumplicidade, de aprendizados, de superações e muito amor. Você é uma mulher maravilhosa, forte, inteligente e cheia de luz, que me inspira todos os dias.</p>
+<p>A vida nos presenteou com dois filhos lindos. Foram muitos desafios, não é mesmo? Mas esses desafios nos fizeram ainda mais fortes e unidos.</p>
+<p>É maravilhoso poder envelhecer ao seu lado, escrever essa história contigo e ainda mais, poder reescreve-la com algo maior e mais profundo. Não por mim, não sou eu, que Deus continue agindo em nossas vidas para todo o sempre.</p>
+<p>Feliz aniversário meu amor. Que seus 30 anos sejam apenas o começo de uma fase ainda mais incrível.</p>
+<p class="highlight-accent text-center" style="font-size: 1.5rem; margin: 20px 0;">TE AMO</p>
+<p class="text-right highlight-accent">— Cassio</p>`
+  },
+  poema5: {
+    title: "Renovação",
+    content: `<p>Graças a Deus linda! não te perdi.</p>
+<p>Hoje eu te tenho perto de mim, você está aqui.</p>
+<p>Não te prometo carro do ano, nem uma mansão.</p>
+<p>Mas te dou tudo que tenho, te dou meu coração.</p>
+<p>Vivi por 18 anos sem saber que você existia. Mas depois de te conhecer é difícil viver sem você por 18 dias.</p>
+<blockquote class="poetic-quote">
+  <p class="poetic-line">“Essa letra outro rapper já cantou,</p>
+  <p class="poetic-line">Mas na história de amor dele acabou.</p>
+  <p class="poetic-line">Já a nossa gata... Hã...</p>
+  <p class="poetic-line">Só recomeçou, reiniciou, renovou!!!”</p>
+</blockquote>
+<p class="text-right highlight-accent">— Cassio</p>`
+  },
+  poema6: {
+    title: "Ilusão",
+    content: `<p>Gostaria de nunca mais escrever, pois quase sempre que escrevo é porque meu coração bate muito mais rápido que o normal e ao mesmo tempo parece que ele está parado, também é verdade a dor como se fosse arrancado. É uma sensação inexplicável que me sufoca mais do que se eu corresse sem parar.</p>
+<p>Meu amor por você é infinito, se inova, esfria, renova, é como se você fosse feita para mim, mas não, foi só ilusão, só o que minha cabeça inventou, criou. Provavelmente o amor faça isso conosco, nos cega, nos ilude, nos transforma, nos torna fiéis, onde nenhuma outra pessoa importa, nos dá a felicidade mesmo em horas e ambientes ruins, nos completa.</p>
+<p>Mas também esse mesmo amor, quando não é recíproco, nos fecha para tudo, nos destrói, trinca nosso corpo e quebra em vários pedacinhos, a felicidade vira terror, escuridão, nos leva a uma sensação horrível, pior que a morte. Com certeza por isso que muitos se matam ao serem rejeitados; o que é a morte perto da dor inexplicável de tratar uma pessoa como Deus e ser chutado e pisado como um objeto que está atrapalhando?</p>
+<p>A verdade é melhor que a mentira? Com certeza.</p>
+<blockquote class="poetic-quote">
+  <p class="poetic-line">“Mas por que a verdade não podia ser a mentira?</p>
+  <p class="poetic-line">Por que a verdade não pode ser o que nós queremos que ela seja?”</p>
+</blockquote>
+<p>Que isso, a vida é um monte de perguntas sem respostas, desilusão na ilusão.</p>
+<p class="highlight-accent" style="margin-top: 20px;">Para você. Meu than!!!</p>
+<p>Espero que encontre o que procura.</p>
 <p class="text-right highlight-accent">— Cassio</p>`
   }
 };

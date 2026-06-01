@@ -21,9 +21,23 @@ let musicController = null;
 function setupMusic() {
   if (audio) return; // Já configurado
   
-  // Criar elemento de áudio com Gymnopédie No. 1 de Erik Satie (Piano suave e romântico)
-  audio = new Audio('https://upload.wikimedia.org/wikipedia/commons/b/b8/Erik_Satie_-_Gymnop%C3%A9die_No._1_-_piano.mp3');
+  const defaultTrack = 'https://upload.wikimedia.org/wikipedia/commons/b/b8/Erik_Satie_-_Gymnop%C3%A9die_No._1_-_piano.mp3';
+  const customTrack = textData.musicUrl || '/musica.mp3';
+  
+  // Criar elemento de áudio com a trilha personalizada
+  audio = new Audio(customTrack);
   audio.loop = true;
+  
+  // Fallback suave para a trilha externa padrão em caso de erro (ex: 404 local)
+  audio.addEventListener('error', function onError(e) {
+    console.warn(`Erro ao carregar trilha customizada (${customTrack}). Usando trilha padrão de Satie.`, e);
+    audio.removeEventListener('error', onError);
+    audio.src = defaultTrack;
+    audio.load();
+    if (sessionStorage.getItem('music_playing') === 'true') {
+      audio.play().catch(err => console.log("Erro ao tocar fallback:", err));
+    }
+  });
   
   // Criar botão do controlador de música flutuante
   musicController = document.createElement('div');
@@ -35,6 +49,19 @@ function setupMusic() {
   document.body.appendChild(musicController);
   
   musicController.addEventListener('click', toggleMusic);
+  
+  // Configura ouvinte global para iniciar música na primeira interação da página
+  // para contornar o bloqueio de autoplay dos celulares de forma transparente
+  function startMusicOnFirstInteraction() {
+    if (sessionStorage.getItem('music_playing') !== 'false') {
+      playMusic();
+    }
+    document.removeEventListener('click', startMusicOnFirstInteraction);
+    document.removeEventListener('touchstart', startMusicOnFirstInteraction);
+  }
+  
+  document.addEventListener('click', startMusicOnFirstInteraction);
+  document.addEventListener('touchstart', startMusicOnFirstInteraction);
   
   // Verifica se o estado de reprodução foi salvo na sessão
   if (sessionStorage.getItem('music_playing') === 'true') {
@@ -199,8 +226,18 @@ function router() {
     renderMotivos();
   else if (page === 'carta')
     renderCarta();
-  else if (page ==='poema1')
-    renderPoema1();
+  else if (page === 'poema1')
+    renderPoema('poema1', '🌟');
+  else if (page === 'poema2')
+    renderPoema('poema2', '🤝');
+  else if (page === 'poema3')
+    renderPoema('poema3', '💖');
+  else if (page === 'poema4')
+    renderPoema('poema4', '🎂');
+  else if (page === 'poema5')
+    renderPoema('poema5', '🌱');
+  else if (page === 'poema6')
+    renderPoema('poema6', '🌌');
   else
     renderPortal();
 }
@@ -242,14 +279,19 @@ function renderPortal() {
         <div class="glass-card" style="max-width: 550px;">
           <span class="crystal-heart" style="font-size: 3rem;">💖</span>
           <h2>Nossos Capítulos</h2>
-          <p class="subtitle" style="margin-bottom: 20px;">Escolha um capítulo ou escaneie o QR Code físico</p>
+          <p class="subtitle" style="margin-bottom: 15px;">Escolha um capítulo ou escaneie o QR Code físico</p>
           
-          <div style="display: flex; flex-direction: column; gap: 15px; width: 100%;">
-            <a href="?p=historia" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo I: A Nossa História</a>
-            <a href="?p=filhos" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo II: Os Nossos Frutos</a>
-            <a href="?p=motivos" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo III: 15 Motivos Para Te Amar</a>
-            <a href="?p=carta" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo IV: Carta Para o Futuro</a>
-            <a href="?p=poema1" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo V: Vida e Sonhos</a>
+          <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; max-height: 380px; overflow-y: auto; padding-right: 5px; box-sizing: border-box;">
+            <a href="?p=historia" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo I: A Nossa História 💍</a>
+            <a href="?p=filhos" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo II: Os Nossos Frutos 👨‍👩‍👧‍👦</a>
+            <a href="?p=motivos" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo III: 15 Motivos Para Te Amar ✨</a>
+            <a href="?p=carta" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo IV: Carta Para o Futuro 💌</a>
+            <a href="?p=poema1" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo V: Vida e Sonhos 🌟</a>
+            <a href="?p=poema2" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo VI: Promessas 🤝</a>
+            <a href="?p=poema3" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo VII: Para meu amor ♡ ♡ ♡ 💖</a>
+            <a href="?p=poema4" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo VIII: Mais um ano de vida! 🎂</a>
+            <a href="?p=poema5" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo IX: Renovação 🌱</a>
+            <a href="?p=poema6" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo X: Ilusão 🌌</a>
           </div>
         </div>
       `;
@@ -266,7 +308,6 @@ function renderHistoria() {
     <div class="glass-card">
       <span class="crystal-heart" style="font-size: 3rem;">💍</span>
       <h2>${textData.historia.title}</h2>
-      <div class="subtitle">${textData.historia.subtitle}</div>
       
       <div class="typewriter-content" id="historia-text"></div>
       
@@ -305,7 +346,6 @@ function renderFilhos() {
     <div class="glass-card" style="max-width: 550px;">
       <span class="crystal-heart" style="font-size: 3rem;">💝</span>
       <h2>${textData.filhos.title}</h2>
-      <div class="subtitle">${textData.filhos.subtitle}</div>
       
        <div class="typewriter-content" id="filhos-intro" style="margin-bottom: 20px;"></div>
       
@@ -382,9 +422,8 @@ function renderFilhos() {
 function renderMotivos() {
   appElement.innerHTML = `
     <div class="glass-card" style="max-width: 550px;">
-      <span class="crystal-heart" style="font-size: 3rem;">✨</span>
+      <span class="crystal-heart" style="font-size: 3rem;">💎</span>
       <h2>${textData.motivos.title}</h2>
-      <div class="subtitle">${textData.motivos.subtitle}</div>
       
       <div class="typewriter-content" id="motivos-intro"></div>
       
@@ -484,9 +523,8 @@ function renderMotivos() {
 function renderCarta() {
   appElement.innerHTML = `
     <div class="glass-card" style="max-width: 550px;">
-      <span class="crystal-heart" style="font-size: 3rem;">💌</span>
+      <span  style="font-size: 3rem;">💌</span>
       <h2>${textData.carta.title}</h2>
-      <div class="subtitle">${textData.carta.subtitle}</div>
       
       <!-- Canvas local exclusivo de flores sobre o card para efeito mágico -->
       <canvas id="flower-rain-canvas" style="position: absolute; top:0; left:0; width:100%; height:100%; z-index:1; pointer-events:none; border-radius:24px;"></canvas>
@@ -527,18 +565,18 @@ function renderCarta() {
 }
 
 // ==========================================
-// PÁGINA: QR Code 5 - Poema1
+// PÁGINA: Renderizador Genérico de Poemas
 // ==========================================
-function renderPoema1() {
+function renderPoema(dataKey, icon = '🌟') {
   appElement.innerHTML = `
     <div class="glass-card" style="max-width: 550px;">
-      <span class="crystal-heart" style="font-size: 3rem;">🌟</span>
-      <h2>${textData.poema1.title}</h2>
+      <span class="crystal-heart" style="font-size: 3rem;">${icon}</span>
+      <h2>${textData[dataKey].title}</h2>
       
       <!-- Canvas local exclusivo de flores sobre o card para efeito mágico -->
       <canvas id="flower-rain-canvas" style="position: absolute; top:0; left:0; width:100%; height:100%; z-index:1; pointer-events:none; border-radius:24px;"></canvas>
       
-      <div class="typewriter-content" id="poema1-text" style="position: relative; z-index: 2;"></div>
+      <div class="typewriter-content" id="poema-text" style="position: relative; z-index: 2;"></div>
       
       <div class="no-print" style="display: flex; flex-direction: column; align-items: center; gap: 10px; position: relative; z-index: 3;">
         <button class="btn-skip" id="btn-skip-typing">Pular digitação</button>
@@ -550,14 +588,14 @@ function renderPoema1() {
   const card = appElement.querySelector('.glass-card');
   applyCardSpotlight(card);
   
-  const textContainer = document.getElementById('poema1-text');
+  const textContainer = document.getElementById('poema-text');
   const btnSkip = document.getElementById('btn-skip-typing');
   const btnBack = document.getElementById('btn-back');
   const flowerCanvas = document.getElementById('flower-rain-canvas');
   
   playMusic();
   
-  const typingController = typeHtml(textContainer, textData.poema1.content, undefined, () => {
+  const typingController = typeHtml(textContainer, textData[dataKey].content, undefined, () => {
     btnSkip.style.display = 'none';
     btnBack.style.display = 'inline-flex';
     

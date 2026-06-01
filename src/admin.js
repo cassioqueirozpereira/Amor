@@ -10,6 +10,7 @@ const currentData = savedData ? JSON.parse(savedData) : defaultTextData;
 // 2. Elementos Globais do DOM
 const bgCanvas = document.getElementById('bg-canvas');
 const baseUrlInput = document.getElementById('base-url');
+const musicUrlInput = document.getElementById('music-url');
 
 // Elementos Form I: História
 const histTitulo = document.getElementById('historia-titulo');
@@ -32,8 +33,13 @@ const motivosContainer = document.getElementById('motivos-inputs-container');
 // Elementos Form IV: Carta
 const cartaConteudo = document.getElementById('carta-conteudo');
 
-// Elementos Form V: Poema
+// Elementos Form V a X: Poemas
 const poema1Conteudo = document.getElementById('poema1-conteudo');
+const poema2Conteudo = document.getElementById('poema2-conteudo');
+const poema3Conteudo = document.getElementById('poema3-conteudo');
+const poema4Conteudo = document.getElementById('poema4-conteudo');
+const poema5Conteudo = document.getElementById('poema5-conteudo');
+const poema6Conteudo = document.getElementById('poema6-conteudo');
 
 // Botões & Modais
 const btnSave = document.getElementById('btn-save-draft');
@@ -50,6 +56,11 @@ const destFilhos = document.getElementById('dest-filhos');
 const destMotivos = document.getElementById('dest-motivos');
 const destCarta = document.getElementById('dest-carta');
 const destPoema1 = document.getElementById('dest-poema1');
+const destPoema2 = document.getElementById('dest-poema2');
+const destPoema3 = document.getElementById('dest-poema3');
+const destPoema4 = document.getElementById('dest-poema4');
+const destPoema5 = document.getElementById('dest-poema5');
+const destPoema6 = document.getElementById('dest-poema6');
 
 // 3. Inicializar Tela Administrativa
 function initAdmin() {
@@ -61,6 +72,9 @@ function initAdmin() {
   if (savedUrl) {
     baseUrlInput.value = savedUrl;
   }
+  
+  // Preenche música
+  musicUrlInput.value = currentData.musicUrl || '/musica.mp3';
   
   // Preenche Formulário I: História
   histTitulo.value = currentData.historia.title;
@@ -74,7 +88,7 @@ function initAdmin() {
   filhoTexto.value = currentData.filhos.boy.text;
   filhaNome.value = currentData.filhos.girl.name;
   filhaIdade.value = currentData.filhos.girl.age;
-  filhaTexto.value = currentData.filhos.girl.text;
+  filhaTexto.value = currentData.filhaTexto ? currentData.filhaTexto : (currentData.filhos.girl.text || '');
   
   // Preenche Formulário III: Motivos
   motivosIntro.value = currentData.motivos.content;
@@ -83,8 +97,13 @@ function initAdmin() {
   // Preenche Formulário IV: Carta
   cartaConteudo.value = currentData.carta.content;
   
-  // Preenche Formulário V: Poema
+  // Preenche Formulários de Poemas (V a X)
   poema1Conteudo.value = currentData.poema1.content;
+  poema2Conteudo.value = currentData.poema2 ? currentData.poema2.content : (defaultTextData.poema2 ? defaultTextData.poema2.content : '');
+  poema3Conteudo.value = currentData.poema3 ? currentData.poema3.content : (defaultTextData.poema3 ? defaultTextData.poema3.content : '');
+  poema4Conteudo.value = currentData.poema4 ? currentData.poema4.content : (defaultTextData.poema4 ? defaultTextData.poema4.content : '');
+  poema5Conteudo.value = currentData.poema5 ? currentData.poema5.content : (defaultTextData.poema5 ? defaultTextData.poema5.content : '');
+  poema6Conteudo.value = currentData.poema6 ? currentData.poema6.content : (defaultTextData.poema6 ? defaultTextData.poema6.content : '');
   
   // Atualiza previews de QR Codes em tempo real
   updateQrCodes();
@@ -118,6 +137,8 @@ function renderMotivosInputs() {
 function collectFormData() {
   const data = JSON.parse(JSON.stringify(defaultTextData)); // Deep clone
   
+  data.musicUrl = musicUrlInput.value;
+  
   data.historia.title = histTitulo.value;
   data.historia.subtitle = histSub.value;
   data.historia.content = histConteudo.value;
@@ -138,12 +159,26 @@ function collectFormData() {
   });
   
   data.carta.content = cartaConteudo.value;
+  
   data.poema1.content = poema1Conteudo.value;
+  
+  // Inicializa chaves para novos poemas se não existirem
+  if (!data.poema2) data.poema2 = { title: "Promessas" };
+  if (!data.poema3) data.poema3 = { title: "Para meu amor ♡ ♡ ♡" };
+  if (!data.poema4) data.poema4 = { title: "Mais um ano de vida!" };
+  if (!data.poema5) data.poema5 = { title: "Renovação" };
+  if (!data.poema6) data.poema6 = { title: "Ilusão" };
+  
+  data.poema2.content = poema2Conteudo.value;
+  data.poema3.content = poema3Conteudo.value;
+  data.poema4.content = poema4Conteudo.value;
+  data.poema5.content = poema5Conteudo.value;
+  data.poema6.content = poema6Conteudo.value;
   
   return data;
 }
 
-// 6. Atualizar os Previews dos QR Codes na Tela
+// 6. Geração de QR Codes nos previews da tela
 function updateQrCodes() {
   const baseUrl = baseUrlInput.value.replace(/\/$/, ''); // Remove barra no final se houver
   localStorage.setItem('amor_base_url', baseUrl);
@@ -153,12 +188,22 @@ function updateQrCodes() {
   const url3 = `${baseUrl}?p=motivos`;
   const url4 = `${baseUrl}?p=carta`;
   const url5 = `${baseUrl}?p=poema1`;
+  const url6 = `${baseUrl}?p=poema2`;
+  const url7 = `${baseUrl}?p=poema3`;
+  const url8 = `${baseUrl}?p=poema4`;
+  const url9 = `${baseUrl}?p=poema5`;
+  const url10 = `${baseUrl}?p=poema6`;
   
   destHistoria.textContent = url1;
   destFilhos.textContent = url2;
   destMotivos.textContent = url3;
   destCarta.textContent = url4;
   destPoema1.textContent = url5;
+  destPoema2.textContent = url6;
+  destPoema3.textContent = url7;
+  destPoema4.textContent = url8;
+  destPoema5.textContent = url9;
+  destPoema6.textContent = url10;
   
   // Desenha os QR Codes nos placeholders na tela
   generateQrCodeOnHolder('qr-historia-preview', url1);
@@ -166,6 +211,11 @@ function updateQrCodes() {
   generateQrCodeOnHolder('qr-motivos-preview', url3);
   generateQrCodeOnHolder('qr-carta-preview', url4);
   generateQrCodeOnHolder('qr-poema1-preview', url5);
+  generateQrCodeOnHolder('qr-poema2-preview', url6);
+  generateQrCodeOnHolder('qr-poema3-preview', url7);
+  generateQrCodeOnHolder('qr-poema4-preview', url8);
+  generateQrCodeOnHolder('qr-poema5-preview', url9);
+  generateQrCodeOnHolder('qr-poema6-preview', url10);
 }
 
 // Auxiliar para gerar QR no canvas local
@@ -229,7 +279,7 @@ function copyExportedCode() {
 function prepareAndPrint() {
   const baseUrl = baseUrlInput.value.replace(/\/$/, '');
   
-  // Textos e descrições dos cartões de presentes chiques
+  // Textos e descrições dos cartões de presentes chiques para os 10 capítulos
   const tagsData = [
     {
       title: "Capítulo I: A Nossa História",
@@ -255,6 +305,31 @@ function prepareAndPrint() {
       title: "Capítulo V: Vida e Sonhos",
       url: `${baseUrl}?p=poema1`,
       instruction: "Abra no momento de maior intimidade e reflexão ❤️"
+    },
+    {
+      title: "Capítulo VI: Promessas",
+      url: `${baseUrl}?p=poema2`,
+      instruction: "Abra para lembrar do nosso compromisso eterno ✨"
+    },
+    {
+      title: "Capítulo VII: Para meu amor",
+      url: `${baseUrl}?p=poema3`,
+      instruction: "Abra para recordar o dia em que te escolhi 💖"
+    },
+    {
+      title: "Capítulo VIII: Mais um ano",
+      url: `${baseUrl}?p=poema4`,
+      instruction: "Abra para celebrar seu dia especial e seus 30 anos 🎂"
+    },
+    {
+      title: "Capítulo IX: Renovação",
+      url: `${baseUrl}?p=poema5`,
+      instruction: "Abra para celebrar o nosso recomeço abençoado 🌱"
+    },
+    {
+      title: "Capítulo X: Ilusão",
+      url: `${baseUrl}?p=poema6`,
+      instruction: "Abra para ler as minhas reflexões mais profundas 🌌"
     }
   ];
   
@@ -267,14 +342,14 @@ function prepareAndPrint() {
     giftTag.innerHTML = `
       <div>
         <div class="tag-hole"></div>
-        <div class="tag-title">${tag.title}</div>
+        <div class="tag-title" style="font-size: 1.1rem; margin-bottom: 5px;">${tag.title}</div>
       </div>
       
-      <div class="tag-qr-holder" id="print-qr-${index}"></div>
+      <div class="tag-qr-holder" id="print-qr-${index}" style="margin: 5px 0;"></div>
       
       <div>
-        <div class="tag-instruction">${tag.instruction}</div>
-        <div class="tag-anniversary-footer">💍 15 Anos de Casados (Bodas de Cristal)</div>
+        <div class="tag-instruction" style="font-size: 0.75rem; line-height: 1.2; max-width: 180px; margin: 0 auto 5px;">${tag.instruction}</div>
+        <div class="tag-anniversary-footer" style="font-size: 0.65rem;">💍 15 Anos de Casados (Bodas de Cristal)</div>
       </div>
     `;
     
@@ -286,7 +361,7 @@ function prepareAndPrint() {
     holder.appendChild(canvas);
     
     QRCode.toCanvas(canvas, tag.url, {
-      width: 140,
+      width: 130,
       margin: 1,
       color: {
         dark: '#000000',
