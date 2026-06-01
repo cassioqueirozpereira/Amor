@@ -32,6 +32,9 @@ const motivosContainer = document.getElementById('motivos-inputs-container');
 // Elementos Form IV: Carta
 const cartaConteudo = document.getElementById('carta-conteudo');
 
+// Elementos Form V: Poema
+const poema1Conteudo = document.getElementById('poema1-conteudo');
+
 // Botões & Modais
 const btnSave = document.getElementById('btn-save-draft');
 const btnExport = document.getElementById('btn-export-prod');
@@ -46,6 +49,7 @@ const destHistoria = document.getElementById('dest-historia');
 const destFilhos = document.getElementById('dest-filhos');
 const destMotivos = document.getElementById('dest-motivos');
 const destCarta = document.getElementById('dest-carta');
+const destPoema1 = document.getElementById('dest-poema1');
 
 // 3. Inicializar Tela Administrativa
 function initAdmin() {
@@ -78,6 +82,9 @@ function initAdmin() {
   
   // Preenche Formulário IV: Carta
   cartaConteudo.value = currentData.carta.content;
+  
+  // Preenche Formulário V: Poema
+  poema1Conteudo.value = currentData.poema1.content;
   
   // Atualiza previews de QR Codes em tempo real
   updateQrCodes();
@@ -131,6 +138,7 @@ function collectFormData() {
   });
   
   data.carta.content = cartaConteudo.value;
+  data.poema1.content = poema1Conteudo.value;
   
   return data;
 }
@@ -144,17 +152,20 @@ function updateQrCodes() {
   const url2 = `${baseUrl}?p=filhos`;
   const url3 = `${baseUrl}?p=motivos`;
   const url4 = `${baseUrl}?p=carta`;
+  const url5 = `${baseUrl}?p=poema1`;
   
   destHistoria.textContent = url1;
   destFilhos.textContent = url2;
   destMotivos.textContent = url3;
   destCarta.textContent = url4;
+  destPoema1.textContent = url5;
   
   // Desenha os QR Codes nos placeholders na tela
   generateQrCodeOnHolder('qr-historia-preview', url1);
   generateQrCodeOnHolder('qr-filhos-preview', url2);
   generateQrCodeOnHolder('qr-motivos-preview', url3);
   generateQrCodeOnHolder('qr-carta-preview', url4);
+  generateQrCodeOnHolder('qr-poema1-preview', url5);
 }
 
 // Auxiliar para gerar QR no canvas local
@@ -239,6 +250,11 @@ function prepareAndPrint() {
       title: "Capítulo IV: Carta Para o Futuro",
       url: `${baseUrl}?p=carta`,
       instruction: "Abra ao final do nosso brinde romântico 🍷"
+    },
+    {
+      title: "Capítulo V: Vida e Sonhos",
+      url: `${baseUrl}?p=poema1`,
+      instruction: "Abra no momento de maior intimidade e reflexão ❤️"
     }
   ];
   

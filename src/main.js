@@ -68,7 +68,7 @@ function toggleMusic() {
 }
 
 // 4. Motor de Digitação HTML Elegante (HTML-Typewriter Engine)
-function typeHtml(targetElement, htmlString, speed = 55, onComplete = null) {
+function typeHtml(targetElement, htmlString, speed = 90, onComplete = null) {
   targetElement.innerHTML = '';
   
   const parser = document.createElement('div');
@@ -114,6 +114,12 @@ function typeHtml(targetElement, htmlString, speed = 55, onComplete = null) {
     }
     
     const task = textTasks[currentTaskIndex];
+    
+    // Revela dinamicamente decorações/bordas do elemento pai à medida que a digitação começa
+    if (task.node && task.node.parentElement) {
+      task.node.parentElement.classList.add('revealed');
+    }
+    
     if (currentCharIndex < task.fullText.length) {
       task.node.textContent += task.fullText[currentCharIndex];
       currentCharIndex++;
@@ -140,6 +146,10 @@ function typeHtml(targetElement, htmlString, speed = 55, onComplete = null) {
       clearInterval(typingInterval);
       textTasks.forEach(task => {
         task.node.textContent = task.fullText;
+      });
+      // Adiciona class 'revealed' para todos os elementos filhos ao pular
+      targetElement.querySelectorAll('*').forEach(el => {
+        el.classList.add('revealed');
       });
       cursor.remove();
       if (onComplete) onComplete();
@@ -181,17 +191,18 @@ function router() {
   // Garante que a música está configurada após qualquer interação
   setupMusic();
 
-  if (page === 'historia') {
+  if (page === 'historia')
     renderHistoria();
-  } else if (page === 'filhos') {
+  else if (page === 'filhos')
     renderFilhos();
-  } else if (page === 'motivos') {
+  else if (page === 'motivos')
     renderMotivos();
-  } else if (page === 'carta') {
+  else if (page === 'carta')
     renderCarta();
-  } else {
+  else if (page ==='poema1')
+    renderPoema1();
+  else
     renderPortal();
-  }
 }
 
 // ==========================================
@@ -238,6 +249,7 @@ function renderPortal() {
             <a href="?p=filhos" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo II: Os Nossos Frutos</a>
             <a href="?p=motivos" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo III: 15 Motivos Para Te Amar</a>
             <a href="?p=carta" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo IV: Carta Para o Futuro</a>
+            <a href="?p=poema1" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo V: Vida e Sonhos</a>
           </div>
         </div>
       `;
@@ -291,11 +303,11 @@ function renderHistoria() {
 function renderFilhos() {
   appElement.innerHTML = `
     <div class="glass-card" style="max-width: 550px;">
-      <span class="crystal-heart" style="font-size: 3rem;">👨‍👩‍👧‍👦</span>
+      <span class="crystal-heart" style="font-size: 3rem;">💝</span>
       <h2>${textData.filhos.title}</h2>
       <div class="subtitle">${textData.filhos.subtitle}</div>
       
-      <div class="typewriter-content" id="filhos-intro" style="margin-bottom: 20px;"></div>
+       <div class="typewriter-content" id="filhos-intro" style="margin-bottom: 20px;"></div>
       
       <div class="children-grid" style="display: none;" id="children-block">
         <div class="child-card">
@@ -472,7 +484,7 @@ function renderMotivos() {
 function renderCarta() {
   appElement.innerHTML = `
     <div class="glass-card" style="max-width: 550px;">
-      <span class="crystal-heart" style="font-size: 3rem;">✉️</span>
+      <span class="crystal-heart" style="font-size: 3rem;">💌</span>
       <h2>${textData.carta.title}</h2>
       <div class="subtitle">${textData.carta.subtitle}</div>
       
@@ -499,6 +511,53 @@ function renderCarta() {
   playMusic();
   
   const typingController = typeHtml(textContainer, textData.carta.content, undefined, () => {
+    btnSkip.style.display = 'none';
+    btnBack.style.display = 'inline-flex';
+    
+    // Inicia a chuva maravilhosa de Pétalas de Rosas e Orquídeas!
+    startFlowerRain(flowerCanvas);
+  });
+  
+  btnSkip.addEventListener('click', () => {
+    typingController.skip();
+    btnSkip.style.display = 'none';
+    btnBack.style.display = 'inline-flex';
+    startFlowerRain(flowerCanvas);
+  });
+}
+
+// ==========================================
+// PÁGINA: QR Code 5 - Poema1
+// ==========================================
+function renderPoema1() {
+  appElement.innerHTML = `
+    <div class="glass-card" style="max-width: 550px;">
+      <span class="crystal-heart" style="font-size: 3rem;">🌟</span>
+      <h2>${textData.poema1.title}</h2>
+      
+      <!-- Canvas local exclusivo de flores sobre o card para efeito mágico -->
+      <canvas id="flower-rain-canvas" style="position: absolute; top:0; left:0; width:100%; height:100%; z-index:1; pointer-events:none; border-radius:24px;"></canvas>
+      
+      <div class="typewriter-content" id="poema1-text" style="position: relative; z-index: 2;"></div>
+      
+      <div class="no-print" style="display: flex; flex-direction: column; align-items: center; gap: 10px; position: relative; z-index: 3;">
+        <button class="btn-skip" id="btn-skip-typing">Pular digitação</button>
+        <a href="." class="btn-romantic" id="btn-back" style="display: none;">Voltar ao Portal 🏛️</a>
+      </div>
+    </div>
+  `;
+  
+  const card = appElement.querySelector('.glass-card');
+  applyCardSpotlight(card);
+  
+  const textContainer = document.getElementById('poema1-text');
+  const btnSkip = document.getElementById('btn-skip-typing');
+  const btnBack = document.getElementById('btn-back');
+  const flowerCanvas = document.getElementById('flower-rain-canvas');
+  
+  playMusic();
+  
+  const typingController = typeHtml(textContainer, textData.poema1.content, undefined, () => {
     btnSkip.style.display = 'none';
     btnBack.style.display = 'inline-flex';
     

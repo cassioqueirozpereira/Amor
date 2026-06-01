@@ -691,6 +691,31 @@ textarea.form-control {
   margin-top: 4px;
 }
 
+.poetic-quote.revealed {
+  border-left: 2px solid var(--color-accent);
+  background: rgba(255, 123, 144, 0.02);
+  border-color: rgba(var(--color-accent-rgb), 0.25);
+  box-shadow: inset 4px 0 0 -2px var(--color-accent);
+}
+
+.poetic-quote p {
+  margin: 0 !important;
+}
+
+/* Individual line transitions */
+.poetic-line {
+  border-left: 2px solid transparent;
+  padding-left: 10px;
+  margin-bottom: 8px !important;
+  transition: border-color 0.5s ease-out;
+  font-style: italic;
+  color: var(--color-primary);
+}
+
+.poetic-line.revealed {
+  border-left: 2px solid var(--color-accent);
+}
+
 /* Estilos de Impressão */
 @media print {
   body {
