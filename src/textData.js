@@ -1,7 +1,7 @@
 // Banco de dados de textos da Homenagem (pode ser personalizado pelo painel admin)
 
 export const defaultTextData = {
-  musicUrl: "/musica.mp3",
+  musicUrl: "/music/music.mp3",
   portal: {
     title: "15 Anos de Amor",
     subtitle: "Bodas de Cristal",

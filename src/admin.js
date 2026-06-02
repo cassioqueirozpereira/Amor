@@ -2,10 +2,29 @@ import QRCode from 'qrcode';
 import { defaultTextData } from './textData.js';
 import { initBackgroundParticles } from './particles.js';
 
-// 1. Tenta carregar do localStorage ou usa o padrão
+// 1. Tenta carregar do localStorage ou usa o padrão com merge seguro
 const STORAGE_KEY = 'amor_homenagem_data';
 const savedData = localStorage.getItem(STORAGE_KEY);
-const currentData = savedData ? JSON.parse(savedData) : defaultTextData;
+let currentData = defaultTextData;
+if (savedData) {
+  try {
+    const parsed = JSON.parse(savedData);
+    currentData = {};
+    for (const key in defaultTextData) {
+      if (parsed[key] !== undefined) {
+        if (typeof defaultTextData[key] === 'object' && !Array.isArray(defaultTextData[key]) && defaultTextData[key] !== null) {
+          currentData[key] = { ...defaultTextData[key], ...parsed[key] };
+        } else {
+          currentData[key] = parsed[key];
+        }
+      } else {
+        currentData[key] = defaultTextData[key];
+      }
+    }
+  } catch (e) {
+    console.error("Erro ao carregar rascunho do localStorage:", e);
+  }
+}
 
 // 2. Elementos Globais do DOM
 const bgCanvas = document.getElementById('bg-canvas');
@@ -74,7 +93,7 @@ function initAdmin() {
   }
   
   // Preenche música
-  musicUrlInput.value = currentData.musicUrl || '/musica.mp3';
+  musicUrlInput.value = currentData.musicUrl || '/music/music.mp3';
   
   // Preenche Formulário I: História
   histTitulo.value = currentData.historia.title;

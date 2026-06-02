@@ -6,9 +6,28 @@ import {
   stopFlowerRain 
 } from './particles.js';
 
-// 1. Inicializar os Textos (Carrega do localStorage para preview do Cassio, ou usa os originais)
+// 1. Inicializar os Textos (Carrega do localStorage com merge seguro dos dados padrão)
 const savedData = localStorage.getItem('amor_homenagem_data');
-const textData = savedData ? JSON.parse(savedData) : defaultTextData;
+let textData = defaultTextData;
+if (savedData) {
+  try {
+    const parsed = JSON.parse(savedData);
+    textData = {};
+    for (const key in defaultTextData) {
+      if (parsed[key] !== undefined) {
+        if (typeof defaultTextData[key] === 'object' && !Array.isArray(defaultTextData[key]) && defaultTextData[key] !== null) {
+          textData[key] = { ...defaultTextData[key], ...parsed[key] };
+        } else {
+          textData[key] = parsed[key];
+        }
+      } else {
+        textData[key] = defaultTextData[key];
+      }
+    }
+  } catch (e) {
+    console.error("Erro ao carregar textos salvos do localStorage:", e);
+  }
+}
 
 // 2. Elementos Globais do DOM
 const appElement = document.getElementById('app');
@@ -22,7 +41,7 @@ function setupMusic() {
   if (audio) return; // Já configurado
   
   const defaultTrack = 'https://upload.wikimedia.org/wikipedia/commons/b/b8/Erik_Satie_-_Gymnop%C3%A9die_No._1_-_piano.mp3';
-  const customTrack = textData.musicUrl || '/musica.mp3';
+  const customTrack = textData.musicUrl || '/music/music.mp3';
   
   // Criar elemento de áudio com a trilha personalizada
   audio = new Audio(customTrack);
@@ -69,13 +88,37 @@ function setupMusic() {
   }
 }
 
+let fadeInterval = null;
+
 function playMusic() {
   if (!audio) return;
+  
+  // Se a música já estiver tocando, mantém a reprodução contínua e suave
+  if (!audio.paused) return;
+  
+  if (fadeInterval) {
+    clearInterval(fadeInterval);
+    fadeInterval = null;
+  }
+  
+  audio.volume = 0;
   audio.play()
     .then(() => {
       musicController.classList.add('playing');
       musicController.querySelector('.text').textContent = 'Pausar Música';
       sessionStorage.setItem('music_playing', 'true');
+      
+      let vol = 0;
+      fadeInterval = setInterval(() => {
+        vol += 0.02; // Aumenta 2% a cada 100ms -> 100% em 5 segundos
+        if (vol >= 1) {
+          audio.volume = 1;
+          clearInterval(fadeInterval);
+          fadeInterval = null;
+        } else {
+          audio.volume = vol;
+        }
+      }, 100);
     })
     .catch(err => {
       console.log("Autoplay bloqueado pelo navegador. Aguardando interação do usuário.", err);
@@ -95,7 +138,7 @@ function toggleMusic() {
 }
 
 // 4. Motor de Digitação HTML Elegante (HTML-Typewriter Engine)
-function typeHtml(targetElement, htmlString, speed = 90, onComplete = null) {
+function typeHtml(targetElement, htmlString, speed = 25, onComplete = null) {
   targetElement.innerHTML = '';
   
   const parser = document.createElement('div');
@@ -205,6 +248,168 @@ function applyCardSpotlight(cardElement) {
   });
 }
 
+// 5.5. Exibir Capa Inicial do Capítulo com Animações Cinematográficas de Revelação
+function showChapterCover(containerElement, type, label, onStart) {
+  let iconHtml = '';
+  let coverClass = '';
+
+  if (type === 'envelope') {
+    iconHtml = `
+      <div class="envelope-wrapper">
+        <div class="envelope-flap"></div>
+        <div class="envelope-base"></div>
+        <div class="envelope-heart">❤️</div>
+        <div class="envelope-letter"></div>
+      </div>
+    `;
+    coverClass = 'cover-envelope';
+  } else if (type === 'crystal') {
+    iconHtml = `
+      <div class="crystal-wrapper">
+        <div class="crystal-body">💎</div>
+        <div class="crystal-shard shard-1"></div>
+        <div class="crystal-shard shard-2"></div>
+        <div class="crystal-shard shard-3"></div>
+        <div class="crystal-shard shard-4"></div>
+        <div class="crystal-shard shard-5"></div>
+        <div class="crystal-shard shard-6"></div>
+        <div class="crystal-shard shard-7"></div>
+        <div class="crystal-shard shard-8"></div>
+      </div>
+    `;
+    coverClass = 'cover-crystal';
+  } else if (type === 'rose') {
+    iconHtml = `
+      <div class="rose-wrapper">
+        <div class="rose-body">🌹</div>
+        <div class="rose-petal petal-1">🌸</div>
+        <div class="rose-petal petal-2">🌸</div>
+        <div class="rose-petal petal-3">🌸</div>
+        <div class="rose-petal petal-4">🌸</div>
+        <div class="rose-petal petal-5">🌸</div>
+        <div class="rose-petal petal-6">🌸</div>
+      </div>
+    `;
+    coverClass = 'cover-rose';
+  }
+
+  containerElement.innerHTML = `
+    <div class="chapter-cover-container ${coverClass}">
+      <div class="cover-interactive-area">
+        ${iconHtml}
+        <button class="btn-reveal-chapter">${label}</button>
+      </div>
+    </div>
+  `;
+
+  const interactive = containerElement.querySelector('.cover-interactive-area');
+
+  const startReveal = () => {
+    // Previne duplo disparo
+    interactive.removeEventListener('click', startReveal);
+
+    // 1. Toca a música com fade-in suave
+    playMusic();
+
+    // 2. Dispara a animação específica do tipo
+    if (type === 'envelope') {
+      triggerEnvelopeOpen(interactive);
+    } else if (type === 'crystal') {
+      triggerCrystalShatter(interactive);
+    } else if (type === 'rose') {
+      triggerRoseDissolve(interactive);
+    }
+
+    // 3. Após a animação, renderiza o conteúdo
+    setTimeout(() => { onStart(); }, 900);
+  };
+
+  interactive.addEventListener('click', startReveal);
+  interactive.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    startReveal();
+  }, { passive: false });
+}
+
+// Animação: Envelope se abre
+function triggerEnvelopeOpen(interactive) {
+  const flap   = interactive.querySelector('.envelope-flap');
+  const heart  = interactive.querySelector('.envelope-heart');
+  const letter = interactive.querySelector('.envelope-letter');
+  const btn    = interactive.querySelector('.btn-reveal-chapter');
+
+  if (btn) btn.style.opacity = '0';
+  if (heart) heart.style.transition = 'opacity 0.2s'; heart && (heart.style.opacity = '0');
+
+  // Abre a aba
+  if (flap) flap.classList.add('open');
+
+  // Carta sobe para fora do envelope
+  setTimeout(() => {
+    if (letter) letter.classList.add('rising');
+  }, 250);
+
+  // Fade out de tudo
+  setTimeout(() => {
+    interactive.style.transition = 'opacity 0.4s ease';
+    interactive.style.opacity = '0';
+  }, 550);
+}
+
+// Animação: Cristal se parte
+function triggerCrystalShatter(interactive) {
+  const body   = interactive.querySelector('.crystal-body');
+  const shards = interactive.querySelectorAll('.crystal-shard');
+  const btn    = interactive.querySelector('.btn-reveal-chapter');
+
+  if (btn) btn.style.transition = 'opacity 0.15s'; btn && (btn.style.opacity = '0');
+
+  // Flash de impacto
+  if (body) {
+    body.style.animation = 'none';
+    body.classList.add('shattering');
+  }
+
+  // Lança cada fragmento em direções diferentes
+  setTimeout(() => {
+    shards.forEach(s => s.classList.add('flying'));
+    if (body) body.style.opacity = '0';
+  }, 80);
+
+  // Fade out geral
+  setTimeout(() => {
+    interactive.style.transition = 'opacity 0.35s ease';
+    interactive.style.opacity = '0';
+  }, 500);
+}
+
+// Animação: Rosa se desmanche
+function triggerRoseDissolve(interactive) {
+  const body   = interactive.querySelector('.rose-body');
+  const petals = interactive.querySelectorAll('.rose-petal');
+  const btn    = interactive.querySelector('.btn-reveal-chapter');
+
+  if (btn) btn.style.transition = 'opacity 0.2s'; btn && (btn.style.opacity = '0');
+
+  // Pétalas explodem para fora
+  petals.forEach(p => p.classList.add('flying'));
+
+  // Rosa murcha
+  setTimeout(() => {
+    if (body) {
+      body.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+      body.style.transform = 'scale(0.3) rotate(30deg)';
+      body.style.opacity = '0';
+    }
+  }, 100);
+
+  // Fade out geral
+  setTimeout(() => {
+    interactive.style.transition = 'opacity 0.35s ease';
+    interactive.style.opacity = '0';
+  }, 500);
+}
+
 // 6. Roteador SPA (Single Page Application Router)
 function router() {
   stopFlowerRain(); // Para a chuva de pétalas por padrão ao mudar de página
@@ -306,6 +511,16 @@ function renderPortal() {
 function renderHistoria() {
   appElement.innerHTML = `
     <div class="glass-card">
+      <div id="chapter-content-wrapper"></div>
+    </div>
+  `;
+  
+  const card = appElement.querySelector('.glass-card');
+  applyCardSpotlight(card);
+  const wrapper = document.getElementById('chapter-content-wrapper');
+  
+  showChapterCover(wrapper, 'envelope', 'Uma carta para você', () => {
+    wrapper.innerHTML = `
       <span class="crystal-heart" style="font-size: 3rem;">💍</span>
       <h2>${textData.historia.title}</h2>
       
@@ -315,26 +530,20 @@ function renderHistoria() {
         <button class="btn-skip" id="btn-skip-typing">Pular digitação</button>
         <a href="." class="btn-romantic" id="btn-back" style="display: none;">Voltar ao Portal 🏛️</a>
       </div>
-    </div>
-  `;
-  
-  const card = appElement.querySelector('.glass-card');
-  applyCardSpotlight(card);
-  
-  const textContainer = document.getElementById('historia-text');
-  const btnSkip = document.getElementById('btn-skip-typing');
-  const btnBack = document.getElementById('btn-back');
-  
-  // Toca a música automaticamente se já tiver sido interagido
-  playMusic();
-  
-  const typingController = typeHtml(textContainer, textData.historia.content, undefined, () => {
-    btnSkip.style.display = 'none';
-    btnBack.style.display = 'inline-flex';
-  });
-  
-  btnSkip.addEventListener('click', () => {
-    typingController.skip();
+    `;
+    
+    const textContainer = document.getElementById('historia-text');
+    const btnSkip = document.getElementById('btn-skip-typing');
+    const btnBack = document.getElementById('btn-back');
+    
+    const typingController = typeHtml(textContainer, textData.historia.content, undefined, () => {
+      btnSkip.style.display = 'none';
+      btnBack.style.display = 'inline-flex';
+    });
+    
+    btnSkip.addEventListener('click', () => {
+      typingController.skip();
+    });
   });
 }
 
@@ -344,6 +553,16 @@ function renderHistoria() {
 function renderFilhos() {
   appElement.innerHTML = `
     <div class="glass-card" style="max-width: 550px;">
+      <div id="chapter-content-wrapper"></div>
+    </div>
+  `;
+  
+  const card = appElement.querySelector('.glass-card');
+  applyCardSpotlight(card);
+  const wrapper = document.getElementById('chapter-content-wrapper');
+  
+  showChapterCover(wrapper, 'envelope', 'Uma carta para você', () => {
+    wrapper.innerHTML = `
       <span class="crystal-heart" style="font-size: 3rem;">💝</span>
       <h2>${textData.filhos.title}</h2>
       
@@ -371,48 +590,41 @@ function renderFilhos() {
         <button class="btn-skip" id="btn-skip-typing">Pular digitação</button>
         <a href="." class="btn-romantic" id="btn-back" style="display: none;">Voltar ao Portal 🏛️</a>
       </div>
-    </div>
-  `;
-  
-  const card = appElement.querySelector('.glass-card');
-  applyCardSpotlight(card);
-  
-  const introContainer = document.getElementById('filhos-intro');
-  const childrenBlock = document.getElementById('children-block');
-  const boyTextContainer = document.getElementById('boy-text');
-  const girlTextContainer = document.getElementById('girl-text');
-  const btnSkip = document.getElementById('btn-skip-typing');
-  const btnBack = document.getElementById('btn-back');
-  
-  playMusic();
-  
-  let subTyping1 = null;
-  let subTyping2 = null;
-  
-  const mainTyping = typeHtml(introContainer, textData.filhos.content, undefined, () => {
-    childrenBlock.style.display = 'flex';
+    `;
     
-    // Digita recursivamente o primeiro filho
-    subTyping1 = typeHtml(boyTextContainer, textData.filhos.boy.text, undefined, () => {
-      // Digita o segundo filho
-      subTyping2 = typeHtml(girlTextContainer, textData.filhos.girl.text, undefined, () => {
-        btnSkip.style.display = 'none';
-        btnBack.style.display = 'inline-flex';
+    const introContainer = document.getElementById('filhos-intro');
+    const childrenBlock = document.getElementById('children-block');
+    const boyTextContainer = document.getElementById('boy-text');
+    const girlTextContainer = document.getElementById('girl-text');
+    const btnSkip = document.getElementById('btn-skip-typing');
+    const btnBack = document.getElementById('btn-back');
+    
+    let subTyping1 = null;
+    let subTyping2 = null;
+    
+    const mainTyping = typeHtml(introContainer, textData.filhos.content, undefined, () => {
+      childrenBlock.style.display = 'flex';
+      
+      subTyping1 = typeHtml(boyTextContainer, textData.filhos.boy.text, undefined, () => {
+        subTyping2 = typeHtml(girlTextContainer, textData.filhos.girl.text, undefined, () => {
+          btnSkip.style.display = 'none';
+          btnBack.style.display = 'inline-flex';
+        });
       });
     });
-  });
-  
-  btnSkip.addEventListener('click', () => {
-    mainTyping.skip();
-    childrenBlock.style.display = 'flex';
-    if (subTyping1) subTyping1.skip();
-    else boyTextContainer.innerHTML = textData.filhos.boy.text;
     
-    if (subTyping2) subTyping2.skip();
-    else girlTextContainer.innerHTML = textData.filhos.girl.text;
-    
-    btnSkip.style.display = 'none';
-    btnBack.style.display = 'inline-flex';
+    btnSkip.addEventListener('click', () => {
+      mainTyping.skip();
+      childrenBlock.style.display = 'flex';
+      if (subTyping1) subTyping1.skip();
+      else boyTextContainer.innerHTML = textData.filhos.boy.text;
+      
+      if (subTyping2) subTyping2.skip();
+      else girlTextContainer.innerHTML = textData.filhos.girl.text;
+      
+      btnSkip.style.display = 'none';
+      btnBack.style.display = 'inline-flex';
+    });
   });
 }
 
@@ -422,6 +634,16 @@ function renderFilhos() {
 function renderMotivos() {
   appElement.innerHTML = `
     <div class="glass-card" style="max-width: 550px;">
+      <div id="chapter-content-wrapper"></div>
+    </div>
+  `;
+  
+  const card = appElement.querySelector('.glass-card');
+  applyCardSpotlight(card);
+  const wrapper = document.getElementById('chapter-content-wrapper');
+  
+  showChapterCover(wrapper, 'crystal', 'Abra quando estiver pronta', () => {
+    wrapper.innerHTML = `
       <span class="crystal-heart" style="font-size: 3rem;">💎</span>
       <h2>${textData.motivos.title}</h2>
       
@@ -446,9 +668,6 @@ function renderMotivos() {
     </div>
   `;
   
-  const card = appElement.querySelector('.glass-card');
-  applyCardSpotlight(card);
-  
   const introContainer = document.getElementById('motivos-intro');
   const crystalsBlock = document.getElementById('crystals-block');
   const displayCard = document.getElementById('reason-display-card');
@@ -457,8 +676,6 @@ function renderMotivos() {
   
   const btnSkip = document.getElementById('btn-skip-typing');
   const btnBack = document.getElementById('btn-back');
-  
-  playMusic();
   
   const mainTyping = typeHtml(introContainer, textData.motivos.content, undefined, () => {
     crystalsBlock.style.display = 'grid';
@@ -515,6 +732,7 @@ function renderMotivos() {
     crystal.addEventListener('click', handleTouch);
     crystal.addEventListener('touchstart', handleTouch, { passive: false });
   });
+});
 }
 
 // ==========================================
@@ -523,7 +741,17 @@ function renderMotivos() {
 function renderCarta() {
   appElement.innerHTML = `
     <div class="glass-card" style="max-width: 550px;">
-      <span  style="font-size: 3rem;">💌</span>
+      <div id="chapter-content-wrapper"></div>
+    </div>
+  `;
+  
+  const card = appElement.querySelector('.glass-card');
+  applyCardSpotlight(card);
+  const wrapper = document.getElementById('chapter-content-wrapper');
+  
+  showChapterCover(wrapper, 'envelope', 'Para você ❤️', () => {
+    wrapper.innerHTML = `
+      <span style="font-size: 3rem;">💌</span>
       <h2>${textData.carta.title}</h2>
       
       <!-- Canvas local exclusivo de flores sobre o card para efeito mágico -->
@@ -535,41 +763,57 @@ function renderCarta() {
         <button class="btn-skip" id="btn-skip-typing">Pular digitação</button>
         <a href="." class="btn-romantic" id="btn-back" style="display: none;">Voltar ao Portal 🏛️</a>
       </div>
-    </div>
-  `;
-  
-  const card = appElement.querySelector('.glass-card');
-  applyCardSpotlight(card);
-  
-  const textContainer = document.getElementById('carta-text');
-  const btnSkip = document.getElementById('btn-skip-typing');
-  const btnBack = document.getElementById('btn-back');
-  const flowerCanvas = document.getElementById('flower-rain-canvas');
-  
-  playMusic();
-  
-  const typingController = typeHtml(textContainer, textData.carta.content, undefined, () => {
-    btnSkip.style.display = 'none';
-    btnBack.style.display = 'inline-flex';
+    `;
     
-    // Inicia a chuva maravilhosa de Pétalas de Rosas e Orquídeas!
-    startFlowerRain(flowerCanvas);
-  });
-  
-  btnSkip.addEventListener('click', () => {
-    typingController.skip();
-    btnSkip.style.display = 'none';
-    btnBack.style.display = 'inline-flex';
-    startFlowerRain(flowerCanvas);
+    const textContainer = document.getElementById('carta-text');
+    const btnSkip = document.getElementById('btn-skip-typing');
+    const btnBack = document.getElementById('btn-back');
+    const flowerCanvas = document.getElementById('flower-rain-canvas');
+    
+    const typingController = typeHtml(textContainer, textData.carta.content, undefined, () => {
+      btnSkip.style.display = 'none';
+      btnBack.style.display = 'inline-flex';
+      
+      // Inicia a chuva maravilhosa de Pétalas de Rosas e Orquídeas!
+      startFlowerRain(flowerCanvas);
+    });
+    
+    btnSkip.addEventListener('click', () => {
+      typingController.skip();
+      btnSkip.style.display = 'none';
+      btnBack.style.display = 'inline-flex';
+      startFlowerRain(flowerCanvas);
+    });
   });
 }
 
 // ==========================================
 // PÁGINA: Renderizador Genérico de Poemas
 // ==========================================
+const poemConfigs = {
+  poema1: { type: 'crystal', label: 'Abra quando estiver pronta' },
+  poema2: { type: 'rose', label: 'Para você ❤️' },
+  poema3: { type: 'envelope', label: 'Uma carta para você' },
+  poema4: { type: 'rose', label: 'Para você ❤️' },
+  poema5: { type: 'rose', label: 'Para você ❤️' },
+  poema6: { type: 'crystal', label: 'Abra quando estiver pronta' }
+};
+
 function renderPoema(dataKey, icon = '🌟') {
   appElement.innerHTML = `
     <div class="glass-card" style="max-width: 550px;">
+      <div id="chapter-content-wrapper"></div>
+    </div>
+  `;
+  
+  const card = appElement.querySelector('.glass-card');
+  applyCardSpotlight(card);
+  const wrapper = document.getElementById('chapter-content-wrapper');
+  
+  const config = poemConfigs[dataKey] || { type: 'rose', label: 'Para você ❤️' };
+  
+  showChapterCover(wrapper, config.type, config.label, () => {
+    wrapper.innerHTML = `
       <span class="crystal-heart" style="font-size: 3rem;">${icon}</span>
       <h2>${textData[dataKey].title}</h2>
       
@@ -582,32 +826,27 @@ function renderPoema(dataKey, icon = '🌟') {
         <button class="btn-skip" id="btn-skip-typing">Pular digitação</button>
         <a href="." class="btn-romantic" id="btn-back" style="display: none;">Voltar ao Portal 🏛️</a>
       </div>
-    </div>
-  `;
-  
-  const card = appElement.querySelector('.glass-card');
-  applyCardSpotlight(card);
-  
-  const textContainer = document.getElementById('poema-text');
-  const btnSkip = document.getElementById('btn-skip-typing');
-  const btnBack = document.getElementById('btn-back');
-  const flowerCanvas = document.getElementById('flower-rain-canvas');
-  
-  playMusic();
-  
-  const typingController = typeHtml(textContainer, textData[dataKey].content, undefined, () => {
-    btnSkip.style.display = 'none';
-    btnBack.style.display = 'inline-flex';
+    `;
     
-    // Inicia a chuva maravilhosa de Pétalas de Rosas e Orquídeas!
-    startFlowerRain(flowerCanvas);
-  });
-  
-  btnSkip.addEventListener('click', () => {
-    typingController.skip();
-    btnSkip.style.display = 'none';
-    btnBack.style.display = 'inline-flex';
-    startFlowerRain(flowerCanvas);
+    const textContainer = document.getElementById('poema-text');
+    const btnSkip = document.getElementById('btn-skip-typing');
+    const btnBack = document.getElementById('btn-back');
+    const flowerCanvas = document.getElementById('flower-rain-canvas');
+    
+    const typingController = typeHtml(textContainer, textData[dataKey].content, undefined, () => {
+      btnSkip.style.display = 'none';
+      btnBack.style.display = 'inline-flex';
+      
+      // Inicia a chuva maravilhosa de Pétalas de Rosas e Orquídeas!
+      startFlowerRain(flowerCanvas);
+    });
+    
+    btnSkip.addEventListener('click', () => {
+      typingController.skip();
+      btnSkip.style.display = 'none';
+      btnBack.style.display = 'inline-flex';
+      startFlowerRain(flowerCanvas);
+    });
   });
 }
 
