@@ -4,7 +4,7 @@ export const defaultTextData = {
   musicUrl: "/music/music.mp3",
   portal: {
     title: "16 Anos de Amor",
-    subtitle: "Bodas de Cristal",
+    subtitle: "Bodas de Safira",
     intro: "Bem-vinda ao nosso portal secreto de memórias. Ao longo do dia de hoje, cada cartão físico que você encontrar revelará uma lembrança ou uma declaração escrita letra por letra, celebrando tudo o que construímos juntos nesses 16 anos. Obrigado por ser minha companheira de vida."
   },
   historia: {

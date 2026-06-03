@@ -147,7 +147,7 @@ function toggleMusic() {
 }
 
 // 4. Motor de Digitação HTML Elegante (HTML-Typewriter Engine)
-function typeHtml(targetElement, htmlString, speed = 25, onComplete = null) {
+function typeHtml(targetElement, htmlString, speed = 65, onComplete = null) {
   targetElement.innerHTML = '';
   
   const parser = document.createElement('div');
@@ -353,15 +353,15 @@ function router() {
   else if (page === 'poema1')
     renderPoema('poema1', '🌟');
   else if (page === 'poema2')
-    renderPoema('poema2', '🤝');
+    renderPoema('poema2', '🍀');
   else if (page === 'poema3')
     renderPoema('poema3', '💖');
   else if (page === 'poema4')
     renderPoema('poema4', '🎂');
   else if (page === 'poema5')
-    renderPoema('poema5', '🌱');
+    renderPoema('poema5', '🍀');
   else if (page === 'poema6')
-    renderPoema('poema6', '🌌');
+    renderPoema('poema6', '💎');
   else
     renderPortal();
 }
@@ -414,7 +414,7 @@ function renderPortal() {
             <a href="?p=poema2" class="btn-romantic" style="justify-content: center; margin: 0;">Promessas 🤝</a>
             <a href="?p=poema3" class="btn-romantic" style="justify-content: center; margin: 0;">Para meu amor ♡ ♡ ♡ 💖</a>
             <a href="?p=poema4" class="btn-romantic" style="justify-content: center; margin: 0;">Mais um ano de vida! 🎂</a>
-            <a href="?p=poema5" class="btn-romantic" style="justify-content: center; margin: 0;">Renovação 🌱</a>
+            <a href="?p=poema5" class="btn-romantic" style="justify-content: center; margin: 0;">Renovação 🍀</a>
             <a href="?p=poema6" class="btn-romantic" style="justify-content: center; margin: 0;">Ilusão 🌌</a>
           </div>
         </div>
@@ -438,7 +438,7 @@ function renderHistoria() {
   applyCardSpotlight(card);
   const wrapper = document.getElementById('chapter-content-wrapper');
   
-  showChapterCover(wrapper, 'envelope', 'Abra quando estiver pronta 💌', () => {
+  showChapterCover(wrapper, 'crystal', 'Uhibbuk ❤️', () => {
     wrapper.innerHTML = `
       <span class="crystal-heart" style="font-size: 3rem;">💍</span>
       <h2>${textData.historia.title}</h2>
@@ -447,7 +447,6 @@ function renderHistoria() {
       
       <div class="no-print" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
         <button class="btn-skip" id="btn-skip-typing">Pular digitação</button>
-        <a href="." class="btn-romantic" id="btn-back" style="display: none;">Voltar ao Portal 🏛️</a>
       </div>
     `;
     
@@ -480,7 +479,7 @@ function renderFilhos() {
   applyCardSpotlight(card);
   const wrapper = document.getElementById('chapter-content-wrapper');
   
-  showChapterCover(wrapper, 'envelope', 'Abra quando estiver pronta 💌', () => {
+  showChapterCover(wrapper, 'crystal', 'Uhibbuk ❤️', () => {
     wrapper.innerHTML = `
       <span class="crystal-heart" style="font-size: 3rem;">💝</span>
       <h2>${textData.filhos.title}</h2>
@@ -507,7 +506,6 @@ function renderFilhos() {
       
       <div class="no-print" style="display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 20px;">
         <button class="btn-skip" id="btn-skip-typing">Pular digitação</button>
-        <a href="." class="btn-romantic" id="btn-back" style="display: none;">Voltar ao Portal 🏛️</a>
       </div>
     `;
     
@@ -582,7 +580,6 @@ function renderMotivos() {
       
       <div class="no-print" style="display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 25px;">
         <button class="btn-skip" id="btn-skip-typing">Pular</button>
-        <a href="." class="btn-romantic" id="btn-back" style="display: none;">Voltar ao Portal 🏛️</a>
       </div>
     </div>
   `;
@@ -680,7 +677,6 @@ function renderCarta() {
       
       <div class="no-print" style="display: flex; flex-direction: column; align-items: center; gap: 10px; position: relative; z-index: 3;">
         <button class="btn-skip" id="btn-skip-typing">Pular digitação</button>
-        <a href="." class="btn-romantic" id="btn-back" style="display: none;">Voltar ao Portal 🏛️</a>
       </div>
     `;
     
@@ -743,7 +739,6 @@ function renderPoema(dataKey, icon = '🌟') {
       
       <div class="no-print" style="display: flex; flex-direction: column; align-items: center; gap: 10px; position: relative; z-index: 3;">
         <button class="btn-skip" id="btn-skip-typing">Pular digitação</button>
-        <a href="." class="btn-romantic" id="btn-back" style="display: none;">Voltar ao Portal 🏛️</a>
       </div>
     `;
     
