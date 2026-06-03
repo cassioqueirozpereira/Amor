@@ -55,6 +55,7 @@ body {
 
 html {
   height: -webkit-fill-available;
+  background-color: #090615;
 }
 
 /* Background Particle Canvas */
@@ -726,6 +727,8 @@ textarea.form-control {
     color: black !important;
     padding: 0 !important;
     margin: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
   
   .no-print, #app, .admin-container, #bg-canvas, .music-controller {
@@ -755,10 +758,6 @@ textarea.form-control {
   .gift-tag {
     border: none;
     border-radius: 0;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M50 95 C 20 70 5 50 5 30 C 5 10 25 5 35 5 C 45 5 50 20 50 20 C 50 20 55 5 65 5 C 75 5 95 10 95 30 C 95 50 80 70 50 95 Z" fill="white" stroke="%23999" stroke-width="1" stroke-dasharray="2,2"/></svg>');
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    background-position: center;
     padding: 65px 40px 60px 40px;
     text-align: center;
     box-sizing: border-box;
@@ -771,7 +770,18 @@ textarea.form-control {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    background-color: transparent !important;
   }
+
+  .tag-heart-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+
   
   /* Círculo para recortar furo da fita do presente */
   .tag-hole {

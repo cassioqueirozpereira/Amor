@@ -359,14 +359,15 @@ function prepareAndPrint() {
     const giftTag = document.createElement('div');
     giftTag.className = 'gift-tag';
     giftTag.innerHTML = `
-      <div>
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><path d='M50 95 C 20 70 5 50 5 30 C 5 10 25 5 35 5 C 45 5 50 20 50 20 C 50 20 55 5 65 5 C 75 5 95 10 95 30 C 95 50 80 70 50 95 Z' fill='none' stroke='%23999' stroke-width='1' stroke-dasharray='2,2'/></svg>" class="tag-heart-bg" />
+      <div style="z-index: 2; position: relative;">
         <div class="tag-hole"></div>
         <div class="tag-title" style="font-size: 1.1rem; margin-bottom: 5px; margin-top: 15px;">${tag.title}</div>
       </div>
       
-      <div class="tag-qr-holder" id="print-qr-${index}" style="margin: 5px 0;"></div>
+      <div class="tag-qr-holder" id="print-qr-${index}" style="margin: 5px 0; z-index: 2; position: relative;"></div>
       
-      <div>
+      <div style="z-index: 2; position: relative;">
         <div class="tag-anniversary-footer" style="font-size: 0.65rem; margin-bottom: 25px;">💍 16 Anos de Casados (Bodas de Cristal)</div>
       </div>
     `;
