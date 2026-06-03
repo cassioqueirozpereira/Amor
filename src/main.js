@@ -406,16 +406,16 @@ function renderPortal() {
           <p class="subtitle" style="margin-bottom: 15px;">Escolha um capítulo ou escaneie o QR Code físico</p>
           
           <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; max-height: 380px; overflow-y: auto; padding-right: 5px; box-sizing: border-box;">
-            <a href="?p=historia" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo I: A Nossa História 💍</a>
-            <a href="?p=filhos" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo II: Os Nossos Frutos 👨‍👩‍👧‍👦</a>
-            <a href="?p=motivos" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo III: 16 Motivos Para Te Amar ✨</a>
-            <a href="?p=carta" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo IV: Carta Para o Futuro 💌</a>
-            <a href="?p=poema1" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo V: Vida e Sonhos 🌟</a>
-            <a href="?p=poema2" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo VI: Promessas 🤝</a>
-            <a href="?p=poema3" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo VII: Para meu amor ♡ ♡ ♡ 💖</a>
-            <a href="?p=poema4" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo VIII: Mais um ano de vida! 🎂</a>
-            <a href="?p=poema5" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo IX: Renovação 🌱</a>
-            <a href="?p=poema6" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo X: Ilusão 🌌</a>
+            <a href="?p=historia" class="btn-romantic" style="justify-content: center; margin: 0;">A Nossa História 💍</a>
+            <a href="?p=filhos" class="btn-romantic" style="justify-content: center; margin: 0;">Os Nossos Frutos 👨‍👩‍👧‍👦</a>
+            <a href="?p=motivos" class="btn-romantic" style="justify-content: center; margin: 0;">16 Motivos Para Te Amar ✨</a>
+            <a href="?p=carta" class="btn-romantic" style="justify-content: center; margin: 0;">Carta Para o Futuro 💌</a>
+            <a href="?p=poema1" class="btn-romantic" style="justify-content: center; margin: 0;">Vida e Sonhos 🌟</a>
+            <a href="?p=poema2" class="btn-romantic" style="justify-content: center; margin: 0;">Promessas 🤝</a>
+            <a href="?p=poema3" class="btn-romantic" style="justify-content: center; margin: 0;">Para meu amor ♡ ♡ ♡ 💖</a>
+            <a href="?p=poema4" class="btn-romantic" style="justify-content: center; margin: 0;">Mais um ano de vida! 🎂</a>
+            <a href="?p=poema5" class="btn-romantic" style="justify-content: center; margin: 0;">Renovação 🌱</a>
+            <a href="?p=poema6" class="btn-romantic" style="justify-content: center; margin: 0;">Ilusão 🌌</a>
           </div>
         </div>
       `;

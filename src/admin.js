@@ -301,52 +301,52 @@ function prepareAndPrint() {
   // Textos e descrições dos cartões de presentes chiques para os 10 capítulos
   const tagsData = [
     {
-      title: "Capítulo I: A Nossa História",
+      title: "A Nossa História",
       url: `${baseUrl}?p=historia`,
       instruction: "Abra no início do nosso dia de comemoração 🌹"
     },
     {
-      title: "Capítulo II: Os Nossos Frutos",
+      title: "Os Nossos Frutos",
       url: `${baseUrl}?p=filhos`,
       instruction: "Abra durante o nosso almoço em família 👨‍👩‍👧‍👦"
     },
     {
-      title: "Capítulo III: 16 Motivos Para Te Amar",
+      title: "16 Motivos Para Te Amar",
       url: `${baseUrl}?p=motivos`,
       instruction: "Abra após a sobremesa do nosso jantar ✨"
     },
     {
-      title: "Capítulo IV: Carta Para o Futuro",
+      title: "Carta Para o Futuro",
       url: `${baseUrl}?p=carta`,
       instruction: "Abra ao final do nosso brinde romântico 🍷"
     },
     {
-      title: "Capítulo V: Vida e Sonhos",
+      title: "Vida e Sonhos",
       url: `${baseUrl}?p=poema1`,
       instruction: "Abra no momento de maior intimidade e reflexão ❤️"
     },
     {
-      title: "Capítulo VI: Promessas",
+      title: "Promessas",
       url: `${baseUrl}?p=poema2`,
       instruction: "Abra para lembrar do nosso compromisso eterno ✨"
     },
     {
-      title: "Capítulo VII: Para meu amor",
+      title: "Para meu amor",
       url: `${baseUrl}?p=poema3`,
       instruction: "Abra para recordar o dia em que te escolhi 💖"
     },
     {
-      title: "Capítulo VIII: Mais um ano",
+      title: "Mais um ano",
       url: `${baseUrl}?p=poema4`,
       instruction: "Abra para celebrar seu dia especial e seus 30 anos 🎂"
     },
     {
-      title: "Capítulo IX: Renovação",
+      title: "Renovação",
       url: `${baseUrl}?p=poema5`,
       instruction: "Abra para celebrar o nosso recomeço abençoado 🌱"
     },
     {
-      title: "Capítulo X: Ilusão",
+      title: "Ilusão",
       url: `${baseUrl}?p=poema6`,
       instruction: "Abra para ler as minhas reflexões mais profundas 🌌"
     }
@@ -361,14 +361,13 @@ function prepareAndPrint() {
     giftTag.innerHTML = `
       <div>
         <div class="tag-hole"></div>
-        <div class="tag-title" style="font-size: 1.1rem; margin-bottom: 5px;">${tag.title}</div>
+        <div class="tag-title" style="font-size: 1.1rem; margin-bottom: 5px; margin-top: 15px;">${tag.title}</div>
       </div>
       
       <div class="tag-qr-holder" id="print-qr-${index}" style="margin: 5px 0;"></div>
       
       <div>
-        <div class="tag-instruction" style="font-size: 0.75rem; line-height: 1.2; max-width: 180px; margin: 0 auto 5px;">${tag.instruction}</div>
-        <div class="tag-anniversary-footer" style="font-size: 0.65rem;">💍 16 Anos de Casados (Bodas de Cristal)</div>
+        <div class="tag-anniversary-footer" style="font-size: 0.65rem; margin-bottom: 25px;">💍 16 Anos de Casados (Bodas de Cristal)</div>
       </div>
     `;
     
