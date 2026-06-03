@@ -5,6 +5,15 @@ import {
   startFlowerRain, 
   stopFlowerRain 
 } from './particles.js';
+import { 
+  initThreeScene, 
+  mountEnvelope3D,
+  triggerEnvelopeOpen3D, 
+  mountCrystal3D,
+  triggerCrystalShatter3D, 
+  mountRose3D,
+  triggerRoseDissolve3D 
+} from './threeScene.js';
 
 // 1. Inicializar os Textos (Carrega do localStorage com merge seguro dos dados padrão)
 const savedData = localStorage.getItem('amor_homenagem_data');
@@ -248,59 +257,32 @@ function applyCardSpotlight(cardElement) {
   });
 }
 
-// 5.5. Exibir Capa Inicial do Capítulo com Animações Cinematográficas de Revelação
+// 5.5. Exibir Capa Inicial do Capítulo com Animações 3D Cinematográficas
 function showChapterCover(containerElement, type, label, onStart) {
-  let iconHtml = '';
-  let coverClass = '';
-
-  if (type === 'envelope') {
-    iconHtml = `
-      <div class="envelope-wrapper">
-        <div class="envelope-flap"></div>
-        <div class="envelope-base"></div>
-        <div class="envelope-heart">❤️</div>
-        <div class="envelope-letter"></div>
-      </div>
-    `;
-    coverClass = 'cover-envelope';
-  } else if (type === 'crystal') {
-    iconHtml = `
-      <div class="crystal-wrapper">
-        <div class="crystal-body">💎</div>
-        <div class="crystal-shard shard-1"></div>
-        <div class="crystal-shard shard-2"></div>
-        <div class="crystal-shard shard-3"></div>
-        <div class="crystal-shard shard-4"></div>
-        <div class="crystal-shard shard-5"></div>
-        <div class="crystal-shard shard-6"></div>
-        <div class="crystal-shard shard-7"></div>
-        <div class="crystal-shard shard-8"></div>
-      </div>
-    `;
-    coverClass = 'cover-crystal';
-  } else if (type === 'rose') {
-    iconHtml = `
-      <div class="rose-wrapper">
-        <div class="rose-body">🌹</div>
-        <div class="rose-petal petal-1">🌸</div>
-        <div class="rose-petal petal-2">🌸</div>
-        <div class="rose-petal petal-3">🌸</div>
-        <div class="rose-petal petal-4">🌸</div>
-        <div class="rose-petal petal-5">🌸</div>
-        <div class="rose-petal petal-6">🌸</div>
-      </div>
-    `;
-    coverClass = 'cover-rose';
+  // Ocultamos a sujeira das antigas animações HTML/CSS,
+  // usaremos apenas o botão CTA. O WebGL cuidará de toda a renderização da capa.
+  let emojiHTML = '';
+  if (type === 'rose') {
+    emojiHTML = `<div class="emoji-float rose-emoji">🌹</div>`;
   }
 
   containerElement.innerHTML = `
-    <div class="chapter-cover-container ${coverClass}">
-      <div class="cover-interactive-area">
-        ${iconHtml}
-        <button class="btn-reveal-chapter">${label}</button>
+    <div class="chapter-cover-container">
+      <div class="cover-interactive-area" style="min-height: 250px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 20px;">
+        ${emojiHTML}
+        <button class="btn-reveal-chapter" style="position: relative; z-index: 100; margin-top: ${type === 'envelope' ? '120px' : '20px'};">${label}</button>
       </div>
     </div>
   `;
+
+  // Monta o objeto 3D flutuando antes do clique
+  if (type === 'envelope') {
+    mountEnvelope3D();
+  } else if (type === 'crystal') {
+    mountCrystal3D();
+  } else if (type === 'rose') {
+    mountRose3D();
+  }
 
   const interactive = containerElement.querySelector('.cover-interactive-area');
 
@@ -311,17 +293,30 @@ function showChapterCover(containerElement, type, label, onStart) {
     // 1. Toca a música com fade-in suave
     playMusic();
 
-    // 2. Dispara a animação específica do tipo
-    if (type === 'envelope') {
-      triggerEnvelopeOpen(interactive);
-    } else if (type === 'crystal') {
-      triggerCrystalShatter(interactive);
-    } else if (type === 'rose') {
-      triggerRoseDissolve(interactive);
+    // 2. Esconde o botão suavemente
+    const btn = interactive.querySelector('.btn-reveal-chapter');
+    if (btn) {
+      btn.style.transition = 'opacity 0.3s, transform 0.3s';
+      btn.style.opacity = '0';
+      btn.style.transform = 'scale(0.8)';
     }
 
-    // 3. Após a animação, renderiza o conteúdo
-    setTimeout(() => { onStart(); }, 900);
+    // Esconde o emoji também
+    const emoji = interactive.querySelector('.emoji-float');
+    if (emoji) {
+      emoji.style.transition = 'opacity 0.2s, transform 0.2s';
+      emoji.style.opacity = '0';
+      emoji.style.transform = 'scale(1.5)';
+    }
+
+    // 3. Dispara a animação 3D correspondente
+    if (type === 'envelope') {
+      triggerEnvelopeOpen3D(onStart);
+    } else if (type === 'crystal') {
+      triggerCrystalShatter3D(onStart);
+    } else if (type === 'rose') {
+      triggerRoseDissolve3D(onStart);
+    }
   };
 
   interactive.addEventListener('click', startReveal);
@@ -329,85 +324,6 @@ function showChapterCover(containerElement, type, label, onStart) {
     e.preventDefault();
     startReveal();
   }, { passive: false });
-}
-
-// Animação: Envelope se abre
-function triggerEnvelopeOpen(interactive) {
-  const flap   = interactive.querySelector('.envelope-flap');
-  const heart  = interactive.querySelector('.envelope-heart');
-  const letter = interactive.querySelector('.envelope-letter');
-  const btn    = interactive.querySelector('.btn-reveal-chapter');
-
-  if (btn) btn.style.opacity = '0';
-  if (heart) heart.style.transition = 'opacity 0.2s'; heart && (heart.style.opacity = '0');
-
-  // Abre a aba
-  if (flap) flap.classList.add('open');
-
-  // Carta sobe para fora do envelope
-  setTimeout(() => {
-    if (letter) letter.classList.add('rising');
-  }, 250);
-
-  // Fade out de tudo
-  setTimeout(() => {
-    interactive.style.transition = 'opacity 0.4s ease';
-    interactive.style.opacity = '0';
-  }, 550);
-}
-
-// Animação: Cristal se parte
-function triggerCrystalShatter(interactive) {
-  const body   = interactive.querySelector('.crystal-body');
-  const shards = interactive.querySelectorAll('.crystal-shard');
-  const btn    = interactive.querySelector('.btn-reveal-chapter');
-
-  if (btn) btn.style.transition = 'opacity 0.15s'; btn && (btn.style.opacity = '0');
-
-  // Flash de impacto
-  if (body) {
-    body.style.animation = 'none';
-    body.classList.add('shattering');
-  }
-
-  // Lança cada fragmento em direções diferentes
-  setTimeout(() => {
-    shards.forEach(s => s.classList.add('flying'));
-    if (body) body.style.opacity = '0';
-  }, 80);
-
-  // Fade out geral
-  setTimeout(() => {
-    interactive.style.transition = 'opacity 0.35s ease';
-    interactive.style.opacity = '0';
-  }, 500);
-}
-
-// Animação: Rosa se desmanche
-function triggerRoseDissolve(interactive) {
-  const body   = interactive.querySelector('.rose-body');
-  const petals = interactive.querySelectorAll('.rose-petal');
-  const btn    = interactive.querySelector('.btn-reveal-chapter');
-
-  if (btn) btn.style.transition = 'opacity 0.2s'; btn && (btn.style.opacity = '0');
-
-  // Pétalas explodem para fora
-  petals.forEach(p => p.classList.add('flying'));
-
-  // Rosa murcha
-  setTimeout(() => {
-    if (body) {
-      body.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
-      body.style.transform = 'scale(0.3) rotate(30deg)';
-      body.style.opacity = '0';
-    }
-  }, 100);
-
-  // Fade out geral
-  setTimeout(() => {
-    interactive.style.transition = 'opacity 0.35s ease';
-    interactive.style.opacity = '0';
-  }, 500);
 }
 
 // 6. Roteador SPA (Single Page Application Router)
@@ -419,6 +335,9 @@ function router() {
   
   // Inicializa o canvas de fundo
   initBackgroundParticles(bgCanvas);
+  
+  // Inicializa a cena 3D global
+  initThreeScene();
   
   // Garante que a música está configurada após qualquer interação
   setupMusic();
@@ -489,7 +408,7 @@ function renderPortal() {
           <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; max-height: 380px; overflow-y: auto; padding-right: 5px; box-sizing: border-box;">
             <a href="?p=historia" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo I: A Nossa História 💍</a>
             <a href="?p=filhos" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo II: Os Nossos Frutos 👨‍👩‍👧‍👦</a>
-            <a href="?p=motivos" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo III: 15 Motivos Para Te Amar ✨</a>
+            <a href="?p=motivos" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo III: 16 Motivos Para Te Amar ✨</a>
             <a href="?p=carta" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo IV: Carta Para o Futuro 💌</a>
             <a href="?p=poema1" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo V: Vida e Sonhos 🌟</a>
             <a href="?p=poema2" class="btn-romantic" style="justify-content: center; margin: 0;">Capítulo VI: Promessas 🤝</a>
@@ -519,7 +438,7 @@ function renderHistoria() {
   applyCardSpotlight(card);
   const wrapper = document.getElementById('chapter-content-wrapper');
   
-  showChapterCover(wrapper, 'envelope', 'Uma carta para você', () => {
+  showChapterCover(wrapper, 'envelope', 'Abra quando estiver pronta 💌', () => {
     wrapper.innerHTML = `
       <span class="crystal-heart" style="font-size: 3rem;">💍</span>
       <h2>${textData.historia.title}</h2>
@@ -561,7 +480,7 @@ function renderFilhos() {
   applyCardSpotlight(card);
   const wrapper = document.getElementById('chapter-content-wrapper');
   
-  showChapterCover(wrapper, 'envelope', 'Uma carta para você', () => {
+  showChapterCover(wrapper, 'envelope', 'Abra quando estiver pronta 💌', () => {
     wrapper.innerHTML = `
       <span class="crystal-heart" style="font-size: 3rem;">💝</span>
       <h2>${textData.filhos.title}</h2>
@@ -629,7 +548,7 @@ function renderFilhos() {
 }
 
 // ==========================================
-// PÁGINA: QR Code 3 - 15 Motivos
+// PÁGINA: QR Code 3 - 16 Motivos
 // ==========================================
 function renderMotivos() {
   appElement.innerHTML = `
@@ -642,7 +561,7 @@ function renderMotivos() {
   applyCardSpotlight(card);
   const wrapper = document.getElementById('chapter-content-wrapper');
   
-  showChapterCover(wrapper, 'crystal', 'Abra quando estiver pronta', () => {
+  showChapterCover(wrapper, 'crystal', 'Uhibbuk ❤️', () => {
     wrapper.innerHTML = `
       <span class="crystal-heart" style="font-size: 3rem;">💎</span>
       <h2>${textData.motivos.title}</h2>
@@ -650,7 +569,7 @@ function renderMotivos() {
       <div class="typewriter-content" id="motivos-intro"></div>
       
       <div class="crystals-container no-print" id="crystals-block" style="display: none;">
-        ${Array.from({ length: 15 }, (_, i) => `
+        ${Array.from({ length: 16 }, (_, i) => `
           <div class="crystal-item" data-index="${i}"><span>${i + 1}</span></div>
         `).join('')}
       </div>
@@ -718,7 +637,7 @@ function renderMotivos() {
       
       // 3. Exibe o painel do motivo
       displayCard.style.display = 'block';
-      reasonTitle.textContent = `Motivo nº ${index + 1} de 15`;
+      reasonTitle.textContent = `Motivo nº ${index + 1} de 16`;
       
       // 4. Interrompe digitação anterior se houver e digita o novo motivo
       if (currentReasonTyping) {
@@ -749,7 +668,7 @@ function renderCarta() {
   applyCardSpotlight(card);
   const wrapper = document.getElementById('chapter-content-wrapper');
   
-  showChapterCover(wrapper, 'envelope', 'Para você ❤️', () => {
+  showChapterCover(wrapper, 'envelope', 'Abra quando estiver pronta 💌', () => {
     wrapper.innerHTML = `
       <span style="font-size: 3rem;">💌</span>
       <h2>${textData.carta.title}</h2>
@@ -791,12 +710,12 @@ function renderCarta() {
 // PÁGINA: Renderizador Genérico de Poemas
 // ==========================================
 const poemConfigs = {
-  poema1: { type: 'crystal', label: 'Abra quando estiver pronta' },
+  poema1: { type: 'crystal', label: 'Uhibbuk ❤️' },
   poema2: { type: 'rose', label: 'Para você ❤️' },
-  poema3: { type: 'envelope', label: 'Uma carta para você' },
+  poema3: { type: 'envelope', label: 'Abra quando estiver pronta 💌' },
   poema4: { type: 'rose', label: 'Para você ❤️' },
   poema5: { type: 'rose', label: 'Para você ❤️' },
-  poema6: { type: 'crystal', label: 'Abra quando estiver pronta' }
+  poema6: { type: 'crystal', label: 'Habibti ❤️' }
 };
 
 function renderPoema(dataKey, icon = '🌟') {

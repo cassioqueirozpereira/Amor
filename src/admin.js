@@ -137,7 +137,7 @@ function initAdmin() {
   btnCopyCode.addEventListener('click', copyExportedCode);
 }
 
-// 4. Renderizar Inputs Dinâmicos dos 15 Motivos
+// 4. Renderizar Inputs Dinâmicos dos 16 Motivos
 function renderMotivosInputs() {
   motivosContainer.innerHTML = '';
   currentData.motivos.reasons.forEach((reason, index) => {
@@ -311,7 +311,7 @@ function prepareAndPrint() {
       instruction: "Abra durante o nosso almoço em família 👨‍👩‍👧‍👦"
     },
     {
-      title: "Capítulo III: 15 Motivos Para Te Amar",
+      title: "Capítulo III: 16 Motivos Para Te Amar",
       url: `${baseUrl}?p=motivos`,
       instruction: "Abra após a sobremesa do nosso jantar ✨"
     },
@@ -368,7 +368,7 @@ function prepareAndPrint() {
       
       <div>
         <div class="tag-instruction" style="font-size: 0.75rem; line-height: 1.2; max-width: 180px; margin: 0 auto 5px;">${tag.instruction}</div>
-        <div class="tag-anniversary-footer" style="font-size: 0.65rem;">💍 15 Anos de Casados (Bodas de Cristal)</div>
+        <div class="tag-anniversary-footer" style="font-size: 0.65rem;">💍 16 Anos de Casados (Bodas de Cristal)</div>
       </div>
     `;
     
