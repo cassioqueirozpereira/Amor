@@ -27,7 +27,7 @@ export const defaultTextData = {
   },
   motivos: {
     title: "16 Motivos Para Te Amar",
-    content: "<p>Para celebrar esses 16 anos de casados, escolhi <span class=\"highlight-lavender\">16 pequenos grandes motivos</span> pelos quais meu coração bate mais forte por você. Toque em cada cristal brilhante abaixo para revelar cada um deles:</p>",
+    content: "<p>Para celebrar esses 16 anos de casados, escolhi <span class=\"highlight-lavender\">16 motivos</span> pelos quais meu coração bate mais forte por você. Toque em cada cristal brilhante abaixo para revelar cada um deles:</p>",
     reasons: [
       "Amo o seu jeito de rir das minhas piadas ruins, só para me ver feliz.",
       "Amo ver a sua dedicação inabalável, o seu carinho e o seu amor gigante por nossos filhos.",
@@ -44,7 +44,7 @@ export const defaultTextData = {
       "Amo as nossas memórias de viagens, jantares e até dos dias preguiçosos de chuva no sofá assistindo.",
       "Amo o seu toque suave.",
       "Amo a certeza absoluta de que, venha o que vier no futuro, estaremos de mãos dadas, enfrentando tudo juntos.",
-      "Te escolhi ontem, te escolho hoje e te escolherei amanhã meu Uhibuk"
+      "Amo te amar ❤️"
     ]
   },
   carta: {
