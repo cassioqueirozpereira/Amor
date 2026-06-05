@@ -49,7 +49,7 @@ export const defaultTextData = {
   },
   carta: {
     title: "Uma Carta Para o Futuro",
-    content: "<p>Minha querida esposa,</p><p>Chegar aos <span class=\"highlight-rose\">16 anos de casados</span> é olhar para um castelo precioso que construímos tijolo por tijolo. Mas, mais do que celebrar o passado, hoje quero olhar para o nosso <strong>futuro</strong>.</p><p>Prometo continuar te escolhendo todos os dias, nos próximos 15, 30, 50 anos. Prometo ser seu apoio inabalável nas tempestades, seu parceiro de risadas nas bonanças e seu eterno admirador. Quero envelhecer ao seu lado, ver nossos filhos voarem alto e continuarmos sendo o porto seguro um do outro.</p><p>Você é o meu amor, a minha melhor amiga e a minha maior bênção. Feliz aniversário de casamento! Com todo o meu amor para sempre,</p><p class=\"text-right highlight-accent\">— Cassio</p>"
+    content: "<p>Minha querida esposa,</p><p>Chegar aos <span class=\"highlight-rose\">16 anos de casados</span> é olhar para um castelo precioso que construímos tijolo por tijolo. Mas, mais do que olhar para o passado, hoje quero vislumbrar o nosso <strong>futuro</strong>.</p><p>Prometo continuar te escolhendo todos os dias, nos próximos 15, 30, 50 anos. Prometo ser seu apoio inabalável nas tempestades, seu parceiro de risadas nas alegrias e seu eterno admirador. Quero envelhecer ao seu lado, ver nossos filhos voarem alto e continuarmos sendo o porto seguro um do outro.</p><p>Você é o meu amor, a minha melhor amiga e a minha maior bênção. Feliz aniversário de casamento! Com todo o meu amor para sempre,</p><p class=\"text-right highlight-accent\">— Cassio</p>"
   },
   poema1: {
     title: "Vidas e Sonhos",
@@ -74,8 +74,9 @@ export const defaultTextData = {
   <p class="poetic-line">Já esperando o pior?</p>
   <p class="poetic-line">Ter uma vida onde se desistiu dos sonhos. Não parece que já desistimos da vida?”</p>
 </blockquote>
-<p>Tenho muito mais perguntas que respostas. Acredito que uma mulher, mulher de verdade como você é, não quer um homem que faz perguntas. Quer um homem que dá respostas. Não quer um homem que traz dificuldades, quer um homem que traz soluções. Não quer dúvidas, quer certezas.</p>
-<p>Então já me sinto inferior, já comecei o jogo perdendo, nerfado. Mas se mesmo nerfado, eu desse jeito, sem jeito... faz sentido para você continuar uma vida ao meu lado?</p>
+<p>Tenho muito mais perguntas que respostas. Acredito que uma mulher, mulher de verdade como você é, não quer um homem que faz perguntas. Quer um homem que dá respostas. Não quer um homem que traz problemas, quer um homem que traz soluções. Não quer dúvidas, quer certezas.</p>
+<p>Então já me sinto inferior, já comecei o jogo perdendo, nerfado. Mas se mesmo nerfado, eu desse jeito, sem jeito...</p>
+<p>Faz sentido para você continuar uma vida ao meu lado?</p>
 <p>Se sim, se queremos viver juntos, não é só alinhar os sonhos e fazer o que está ao nosso alcance para atingir o objetivo?</p>
 <p>Vamos alinhar os nossos sonhos. Precisamos encontrar algo em que não precisemos chegar lá para ser felizes, mas que no caminho, no processo, já estejamos felizes. Felizes por estar seguindo o nosso sonho, fazendo a nossa parte e Deus proverá o restante.</p>
 <p>Como prometido no início, esse texto é meu, foi feito exclusivamente por mim, então nada mais justo do que finalizar com uma pergunta...</p>
@@ -88,7 +89,7 @@ export const defaultTextData = {
   poema2: {
     title: "Promessas",
     content: `<p>Prometo lhe amar, te respeitar, te honrar por toda a minha vida.</p>
-<p>Lembro como se fosse hoje, quando você foi em meu caixa, peguei em sua mão e lhe pedi para ficar comigo.</p>
+<p>Lembro como se fosse hoje, quando você foi em meu caixa, peguei em sua mão, olhei em seus olhos (lindos e grandes) e lhe pedi para ficar comigo.</p>
 <p>Lembro até hoje do nosso primeiro beijo, coração acelerado.</p>
 <p>O quanto tínhamos medo de começar uma nova relação e se machucar.</p>
 <p>Hoje, depois de <span class=\"highlight-rose\">16 anos</span>, te olho e vejo minha parceira, minha melhor amiga, meu alicerce, minha vida.</p>
@@ -98,13 +99,14 @@ export const defaultTextData = {
 <p class="text-right highlight-accent">— Cassio</p>`
   },
   poema3: {
-    title: "Para meu amor ♡ ♡ ♡",
-    content: `<p>Lembro como se fosse hoje, o dia que você foi em meu caixa, peguei em sua mão, olhei em seus olhos (lindos e grandes) e lhe pedi para ficar comigo. Lembro até hoje do nosso primeiro beijo.</p>
-<p>Hoje, depois de <span class=\"highlight-rose\">16 anos</span>, te olho e vejo minha parceira, minha melhor amiga, meu alicerce, minha vida.</p>
-<p>Vivemos alegrias imensas, enfrentamos dificuldades, crescemos juntos. Você me tornou um homem melhor.</p>
-<p>Prometo continuar te amando e te escolhendo todos os dias, te tratar com amor, respeito, paciência e lealdade. Vamos seguir juntos com Deus.</p>
-<p>Se eu pudesse voltar no tempo, escolheria você mil vezes. E se o futuro com Deus nos permitir viver mais 90 anos, quero que cada ano seja ao seu lado.</p>
-<p class="text-right highlight-accent">— Cassio</p>`
+    title: "Para meu amor ♡ ",
+    content: `<p>Hoje nesse dia tão frio, gostaria de agradecer, primeiramente a Deus por tudo que ele fez, faz e fará, por mim e por nós, depois te agradecer por ser essa mulher <span class=\"highlight-rose\">guerreira, inteligente, linda, amiga e esposa maravilhosa.</span></p>
+<p>Talvez seja por isso, que eu quero te dar o melhor, tudo que o dinheiro possa comprar.</p>
+<p>No meio do caminho acabo me perdendo, misturando o que eu acho que você precisa, com o que realmente você quer, para se sentir amada.</p>
+<p>Me desculpe as minhas falhas e imperfeições, mas saiba que eu te amo mais do que as palavras podem expressar.</p>
+<p>Espero que um dia eu consiga te dar tudo que você merece.</p>
+<p>Que nós nunca se esqueçamos, que somos uma trindade com Deus e que quanto mais se aproximarmos d'Ele, mais perto estaremos um do outro.</p>
+<p class="text-right highlight-accent">Te amo ❤️</p>`
   },
   poema4: {
     title: "Mais um ano de vida!",

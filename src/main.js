@@ -147,7 +147,7 @@ function toggleMusic() {
 }
 
 // 4. Motor de Digitação HTML Elegante (HTML-Typewriter Engine)
-function typeHtml(targetElement, htmlString, speed = 80, onComplete = null) {
+function typeHtml(targetElement, htmlString, speed = 90, onComplete = null) {
   targetElement.innerHTML = '';
   
   const parser = document.createElement('div');
