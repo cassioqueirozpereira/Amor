@@ -446,7 +446,6 @@ function renderHistoria() {
       <div class="typewriter-content" id="historia-text"></div>
       
       <div class="no-print" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-        <button class="btn-skip" id="btn-skip-typing">Pular digitação</button>
       </div>
     `;
     

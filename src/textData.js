@@ -8,8 +8,8 @@ export const defaultTextData = {
     intro: "Bem-vinda ao nosso portal secreto de memórias. Ao longo do dia de hoje, cada cartão físico que você encontrar revelará uma lembrança ou uma declaração escrita letra por letra, celebrando tudo o que construímos juntos nesses 16 anos. Obrigado por ser minha companheira de vida."
   },
   historia: {
-    title: "A Nossa História",
-    content: "<p>Há exatamente <span class=\"highlight-rose\">16 anos</span>, nos conhecemos, mal nós sabiamos que se tornaria a jornada mais fantástica e desafiadora das nossas vidas.</p><p>Quando olho para trás, percebo como o tempo voou. Passamos por tantas fases, mudamos de casa, adaptamos rotinas e amadurecemos.</p><p>O nosso amor não apenas resistiu ao tempo, ele se transformou em algo sólido, brilhante e infinitamente precioso como o <strong>cristal</strong>. Cada vitória dividida e cada obstáculo superado de mãos dadas nos trouxe até este marco inesquecível. Sou infinitamente grato por ter você como minha esposa.</p>"
+    title: "Bodas de Cristal",
+    content: `<p>Há exatamente <span class=\"highlight-rose\">15 anos</span>, nos conhecemos, mal nós sabiamos que se tornaria a jornada mais fantástica e desafiadora das nossas vidas.</p><p>Quando olho para trás, percebo como o tempo voou. Passamos por tantas fases, mudamos de casa, adaptamos rotinas e amadurecemos.</p><p>O nosso amor não apenas resistiu ao tempo, ele se transformou em algo sólido, brilhante e infinitamente precioso como o <strong>cristal</strong>. Cada vitória dividida e cada obstáculo superado de mãos dadas nos trouxe até este marco inesquecível. Sou infinitamente grato a Deus por ter colocado essa pessoa maravilhosa ao meu lado.</p><p class="text-right highlight-accent">Te amo ❤️</p>`
   },
   filhos: {
     title: "Os Nossos Frutos",
